@@ -13,4 +13,21 @@ urlcolor: blue
 
 # Final Project 
 
+```{r, warning = F, message = F}
+library(tidyverse)
+
+diabetes_dataset <- read_csv("diabetes_012_health_indicators_BRFSS2015.csv")
+head(diabetes_dataset)
+```
+
+## EDA
+
+### Alice's EDA 
+
+### Hailey's EDA 
+
+### Michelle's EDA
+
+### Iris's EDA 
+
 
