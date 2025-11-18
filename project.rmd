@@ -1,0 +1,16 @@
+---
+title: "36-315 Project"
+author: "Alice Le, Michelle Jiang, Hailey Tan, Iris Yin"
+output:
+  pdf_document:
+  html_document:
+    toc: yes
+    toc_float: yes
+    code_folding: show
+urlcolor: blue
+---
+
+
+# Final Project 
+
+
