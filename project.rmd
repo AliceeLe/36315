@@ -15,6 +15,7 @@ urlcolor: blue
 
 ```{r, warning = F, message = F}
 library(tidyverse)
+library(ggplot2)
 
 diabetes_dataset <- read_csv("diabetes_012_health_indicators_BRFSS2015.csv")
 head(diabetes_dataset)
@@ -23,6 +24,22 @@ head(diabetes_dataset)
 ## EDA
 
 ### Alice's EDA 
+
+```{r}
+diabetes_dataset %>%
+  ggplot(aes(x = factor(Diabetes_012), y = BMI, fill = factor(Diabetes_012))) +
+    geom_boxplot() +
+    scale_fill_manual(
+      values = c("0" = "lightblue", "1" = "gold", "2" = "salmon"),
+      labels = c("0" = "None", "1" = "Prediabetes", "2" = "Diabetes")
+    ) +
+    labs(
+      x = "Diagnosis",
+      y = "BMI",
+      fill = "Condition",
+      title = "BMI Distribution by Diagnosis"
+    )
+```
 
 ### Hailey's EDA 
 
