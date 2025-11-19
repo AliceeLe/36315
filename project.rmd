@@ -17,7 +17,9 @@ urlcolor: blue
 library(tidyverse)
 library(ggplot2)
 
-diabetes_dataset <- read_csv("diabetes_012_health_indicators_BRFSS2015.csv")
+url <- "https://raw.githubusercontent.com/AliceeLe/36315/main/diabetes_012_health_indicators_BRFSS2015.csv"
+diabetes_dataset <- read.csv(url, header = TRUE, stringsAsFactors = FALSE)
+
 head(diabetes_dataset)
 ```
 
