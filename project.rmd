@@ -28,19 +28,17 @@ head(diabetes_dataset)
 ### Alice's EDA 
 
 ```{r}
-diabetes_dataset %>%
-  ggplot(aes(x = factor(Diabetes_012), y = BMI, fill = factor(Diabetes_012))) +
-    geom_boxplot() +
-    scale_fill_manual(
-      values = c("0" = "lightblue", "1" = "gold", "2" = "salmon"),
-      labels = c("0" = "None", "1" = "Prediabetes", "2" = "Diabetes")
-    ) +
-    labs(
-      x = "Diagnosis",
-      y = "BMI",
-      fill = "Condition",
-      title = "BMI Distribution by Diagnosis"
-    )
+ggplot(diabetes_dataset, aes(x = factor(Diabetes_012), y = BMI, fill = factor(Diabetes_012))) +
+  geom_boxplot() +
+  facet_wrap(~ HighBP,
+             labeller = labeller(HighBP = c("0" = "No High Blood Pressure", "1" = "High Blood Pressure"))) +
+  scale_fill_manual(values = c("0" = "lightblue", "1" = "gold", "2" = "salmon"),
+                    labels = c("0" = "None", "1" = "Prediabetes", "2" = "Diabetes")) +
+  labs(x = "Diagnosis",
+       y = "BMI",
+       fill = "Condition",
+       title = "BMI Distribution by Diagnosis and High Blood Pressure")
+
 ```
 
 ### Hailey's EDA 
