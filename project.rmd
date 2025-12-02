@@ -69,5 +69,24 @@ ggplot(diabetesByAge, aes(x = BMI,
   )
 ```
 ### Iris's EDA 
+```{r}
+library(tidyverse)
+library(ggplot2)
 
+url <- "https://raw.githubusercontent.com/AliceeLe/36315/main/diabetes_012_health_indicators_BRFSS2015.csv"
+diabetes_dataset <- read.csv(url, header = TRUE, stringsAsFactors = FALSE)
 
+heat_data <- diabetes_dataset %>%
+  group_by(Age, Diabetes_012) %>%
+  summarize(mean_BMI = mean(BMI))
+
+ggplot(heat_data,
+       aes(x = Age, y = Diabetes_012, fill = mean_BMI)) +
+  geom_tile() +
+  labs(
+    title = "Heatmap of Average BMI by Age and Diabetes Status",
+    x = "Age (BRFSS numeric categories)",
+    y = "Diabetes_012 (0 = None, 1 = Prediabetes, 2 = Diabetes)",
+    fill = "Mean BMI"
+  )
+```
