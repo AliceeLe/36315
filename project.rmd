@@ -76,10 +76,6 @@ Interaction effects (e.g., Does discount impact high-frequency shoppers more?)
 
 ✅ Boxplots
 
-Purchase Amount vs. Category
-
-Purchase Amount vs. Season
-
 Purchase Amount vs. Gender
 
 These show differences in spending across groups.
@@ -91,10 +87,9 @@ Purchase Amount vs. Age
 Purchase Amount vs. Frequency of Purchases
 Add a regression line for interpretation.
 
-✅ Bar Chart
+✅ Spatial Graph
 
 Average Purchase Amount by Location
-Locations as bars, average spending on the y-axis.
 
 ✅ Heatmap
 
