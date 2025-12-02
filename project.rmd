@@ -38,6 +38,91 @@ in the form, “what does the distribution of this variable look like?” - thre
 guarantee 0pts for this item. A more interesting question would motivate why we would like to inspect
 particular distributions with real-world context
 
+1. What factors predict how much a customer spends (Purchase Amount)?
+
+Variables involved:
+
+Age
+
+Gender
+
+Category / Item Purchased
+
+Size, Color
+
+Season
+
+Discount Applied
+
+Promo Code Used
+
+Previous Purchases
+
+Subscription Status
+
+Location
+
+Payment Method
+
+Frequency of Purchases
+
+Possible analyses:
+
+Multiple regression to identify significant predictors of spending
+
+ANOVA to compare spending across categories or seasons
+
+Interaction effects (e.g., Does discount impact high-frequency shoppers more?)
+
+2. Does customer loyalty (Frequency of Purchases or Subscription Status) influence the likelihood of using discounts or promo codes?
+
+Variables involved:
+
+Frequency of Purchases
+
+Subscription Status
+
+Discount Applied
+
+Promo Code Used
+
+Previous Purchases
+
+Possible analyses:
+
+Chi-square test for association
+
+Logistic regression (Predict “Promo Code Used = Yes/No”)
+
+Cluster analysis to uncover shopper groups (Loyal + Discount-heavy vs. Casual + Full-price shoppers)
+
+
+3. How do product attributes (Category, Size, Color, Season) affect customer satisfaction (Review Rating)?
+
+Variables involved:
+
+Review Rating
+
+Category
+
+Size
+
+Color
+
+Season
+
+Shipping Type
+
+Purchase Amount (could influence expectations)
+
+Possible analyses:
+
+ANOVA (Do different product categories receive different ratings?)
+
+Regression predicting rating
+
+Comparing ratings across seasons or color/size groups
+
 \newpage 
 
 ## Question 1 
