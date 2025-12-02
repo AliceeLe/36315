@@ -62,7 +62,29 @@ ggplot(diabetes_dataset, aes(x = factor(Diabetes_012), y = BMI, fill = factor(Di
 
 
 ### Michelle's EDA
-hello
+```{r}
+library(tidyverse)
+url <- "https://raw.githubusercontent.com/AliceeLe/36315/main/diabetes_012_health_indicators_BRFSS2015.csv"
+diabetes_dataset <- read.csv(url, header = TRUE, stringsAsFactors = FALSE)
+
+diabetesByAge <- diabetes_dataset %>%
+  mutate(AgeCategory = factor(Age, levels = sort(unique(Age)),
+                              labels = c("18–24","25–29","30–34","35–39","40–44","45–49",
+                                         "50–54","55–59","60–64","65–69","70–74","75–79","80+")))
+ggplot(diabetesByAge, aes(x = BMI,
+                 y = AgeCategory,
+                 color = factor(HighBP))) +
+  geom_point(alpha = 0.4) +
+  scale_color_manual(values = c("blue", "red"),
+                     labels = c("No High Blood Pressure", "High Blood Pressure")) +
+  labs(
+    title = "BMI and Age vs. High Blood Pressure Status",
+    x = "Body Mass Index (BMI)",
+    y = "Age Category",
+    color = "High Blood Pressure",
+    caption = "Data: Diabetes Health Indicators Dataset"
+  )
+```
 ### Iris's EDA 
 
 
