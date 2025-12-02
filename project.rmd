@@ -74,6 +74,42 @@ ANOVA to compare spending across categories or seasons
 
 Interaction effects (e.g., Does discount impact high-frequency shoppers more?)
 
+✅ Boxplots
+
+Purchase Amount vs. Category
+
+Purchase Amount vs. Season
+
+Purchase Amount vs. Gender
+
+These show differences in spending across groups.
+
+✅ Scatterplots
+
+Purchase Amount vs. Age
+
+Purchase Amount vs. Frequency of Purchases
+Add a regression line for interpretation.
+
+✅ Bar Chart
+
+Average Purchase Amount by Location
+Locations as bars, average spending on the y-axis.
+
+✅ Heatmap
+
+Correlations between:
+
+Purchase Amount
+
+Age
+
+Frequency
+
+Previous Purchases
+
+Useful to identify strong numerical predictors.
+
 2. Does customer loyalty (Frequency of Purchases or Subscription Status) influence the likelihood of using discounts or promo codes?
 
 Variables involved:
@@ -95,6 +131,29 @@ Chi-square test for association
 Logistic regression (Predict “Promo Code Used = Yes/No”)
 
 Cluster analysis to uncover shopper groups (Loyal + Discount-heavy vs. Casual + Full-price shoppers)
+
+✅ Stacked Bar Chart
+
+Discount Applied (Yes/No) by Subscription Status
+Shows whether subscribers use more discounts.
+
+✅ Clustered Bar Chart
+
+Promo Code Used vs. Frequency of Purchases groups
+Example grouping: Low / Medium / High frequency.
+
+✅ Heatmap or Mosaic Plot
+
+Shows relationships among two categorical variables:
+
+Subscription Status
+
+Promo Code Used
+
+✅ Line Chart
+
+Frequency of Purchases vs. Average Discount Applied
+If frequency is truly numeric and continuous, this can show trends.
 
 
 3. How do product attributes (Category, Size, Color, Season) affect customer satisfaction (Review Rating)?
@@ -122,6 +181,29 @@ ANOVA (Do different product categories receive different ratings?)
 Regression predicting rating
 
 Comparing ratings across seasons or color/size groups
+
+✅ Boxplots
+
+Review Rating vs. Category
+
+Review Rating vs. Season
+
+This shows which categories or seasons perform best.
+
+✅ Bar Chart
+
+Average Review Rating by Color
+
+Average Rating by Size
+
+✅ Scatterplot
+
+Purchase Amount vs. Review Rating
+Higher spending may correlate with more satisfaction—or dissatisfaction.
+
+✅ Violin Plot (optional)
+
+For Rating distributions by Category or Season—gives more detail than a boxplot.
 
 \newpage 
 
