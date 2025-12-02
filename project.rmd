@@ -42,6 +42,34 @@ ggplot(diabetes_dataset, aes(x = factor(Diabetes_012), y = BMI, fill = factor(Di
 ```
 
 ### Hailey's EDA 
+```{r}
+library(tidyverse)
+diabetes_data <- read_csv("diabetes_012_health_indicators_BRFSS2015.csv")
+
+diabetes_data %>%
+  mutate(
+    Diabetes_Status = factor(Diabetes_012,
+                             levels = c(0, 1, 2),
+                             labels = c("No Diabetes", "Prediabetes", "Diabetes")),
+    High_BP = factor(HighBP,
+                     levels = c(0, 1),
+                     labels = c("Normal BP", "High BP"))
+  ) %>%
+  ggplot(aes(x = BMI, y = GenHlth, color = Diabetes_Status)) +
+  geom_point(alpha = 0.4, size = 1.5) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1.2) +
+  scale_color_manual(values = c("No Diabetes" = "green", 
+                                 "Prediabetes" = "orange", 
+                                 "Diabetes" = "red")) +
+  labs(
+    title = "Relationship Between BMI and General Health by Diabetes Status",
+    subtitle = "Higher general health scores indicate worse health (1=Excellent, 5=Poor)",
+    x = "Body Mass Index (BMI)",
+    y = "General Health Rating (1-5 scale)",
+    color = "Diabetes Status"
+  )
+```
+
 
 
 ### Michelle's EDA
