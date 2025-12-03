@@ -78,11 +78,72 @@ Interaction effects (e.g., Does discount impact high-frequency shoppers more?)
 
 Purchase Amount vs. Gender
 
-These show differences in spending across groups.
+```{r}
+ggplot(shopping_data, aes(x = Gender, y = Purchase.Amount..USD., fill = Gender)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = 16, outlier.size = 2) +
+  scale_fill_manual(values = c("Male" = "lightblue", "Female" = "lightpink")) +
+  labs(
+    title = "Purchase Amount Distribution by Gender",
+    subtitle = "Comparison of Shopping Spending Patterns",
+    x = "Gender",
+    y = "Purchase Amount (USD)",
+    caption = "Data source: Shopping Behavior Dataset"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    plot.subtitle = element_text(size = 12),
+    axis.title = element_text(size = 12),
+  ) +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 3, 
+               fill = "white", color = "black")
+```
+
+
 
 ✅ Spatial Graph - Hailey
 
 Average Purchase Amount by Location
+
+```{r}
+# average purchase amount by location (state)
+location_purchase <- shopping_data %>%
+  mutate(location_lower = tolower(Location)) %>%
+  group_by(location_lower) %>%
+  summarize(avg_purchase = mean(Purchase.Amount..USD., na.rm = TRUE))
+
+# state map data
+states_map <- map_data("state")
+
+# join the shopping data with map data
+map_with_shopping <- states_map %>%
+  left_join(location_purchase, by = c("region" = "location_lower"))
+
+# choropleth map
+ggplot(map_with_shopping, aes(x = long, y = lat, group = group, fill = avg_purchase)) +
+  geom_polygon(color = "white", size = 0.2) +
+  coord_fixed(1.3) +
+  scale_fill_gradient2(
+    low = "#2E7D32",      # Dark green for low purchases
+    mid = "#FFF59D",      # Light yellow for medium purchases
+    high = "#D32F2F",     # Dark red for high purchases
+    midpoint = median(location_purchase$avg_purchase, na.rm = TRUE),
+    name = "Avg Purchase\nAmount (USD)",
+    na.value = "grey50"
+  ) +
+  labs(
+    title = "Average Purchase Amount by State",
+    subtitle = "Shopping Behavior Analysis",
+    caption = "Data source: Shopping Behavior Dataset"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    plot.subtitle = element_text(size = 12),
+    legend.position = "right"
+  )
+```
+
 
 ✅ Boxplot - Iris
 
