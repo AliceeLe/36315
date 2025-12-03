@@ -152,18 +152,108 @@ Correlations between:
 Purchase Amount
 PUrchase method
 
+```{r}
+library(ggplot2)
+ggplot(shopping_data, aes(x = Payment.Method, y = Purchase.Amount..USD., fill= Payment.Method)) +
+  geom_boxplot() +
+  labs(
+    title = "Boxplot - Iris: Purchase Amount by Purchase Method",
+    x = "Purchase Method",
+    y = "Purchase Amount (USD)"
+  )
+
+```
 Scatterplot - Iris
 Purchase Amount vs Age
 
-2. How does season affect the types of items purchased and the color of the items?
+```{r}
 
-Variables involved:
+ggplot(shopping_data, aes(x = Age, y = Purchase.Amount..USD., color = Season)) +
+  geom_point(alpha = 0.2, size = 0.7) +
+  labs(
+    title = "Scatterplot - Iris: Purchase Amount vs Age",
+    x = "Age",
+    y = "Purchase Amount (USD)"
+  ) 
+```
+**2. How does season affect the types of items purchased and the color of the items? **
+**Season does not seem to have a significant affect on the types of items purchased and color of the items.**
 
-Possible analyses:
+**Variables involved: Season (Winter, Spring, Summer, Fall).Type of item purchased – e.g., Category or Item Purchased，Color of item – Color**
+
+**Possible analyses:Use visualizations such as stacked/clustered bar charts or mosaic plots to compare item types and colors across seasons.**
 
 Chi-square test for association
 
 Logistic regression (Predict “Promo Code Used = Yes/No”)
+
+
+```{r}
+
+df <- shopping_data %>%
+  mutate(
+    promo_used = if_else(Promo.Code.Used == "Yes", 1, 0)
+  )
+
+# Fit logistic regression
+promo_model <- glm(
+  promo_used ~ Age +
+    Purchase.Amount..USD. +
+    Season +
+    Discount.Applied +
+    Payment.Method +
+    Subscription.Status,
+  data = df,
+  family = binomial
+)
+
+summary(promo_model)
+
+```
+
+
+Cluster analysis to uncover shopper groups (Loyal + Discount-heavy vs. Casual + Full-price shoppers)
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+
+cluster_df <- shopping_data %>%
+  mutate(
+    discount_bin = if_else(Discount.Applied == "Yes", 1, 0),
+    promo_bin    = if_else(Promo.Code.Used == "Yes", 1, 0),
+    sub_bin      = if_else(Subscription.Status == "Yes", 1, 0)
+  ) %>%
+  select(
+    Age,
+    Purchase.Amount..USD.,
+    Previous.Purchases,
+    discount_bin,
+    promo_bin,
+    sub_bin
+  )
+
+
+cluster_scaled <- scale(cluster_df)
+
+set.seed(123)
+k2 <- kmeans(cluster_scaled, centers = 2, nstart = 25)
+
+
+shopping_data <- shopping_data %>%
+  mutate(cluster = factor(k2$cluster))
+
+
+aggregate(cluster_df, by = list(cluster = shopping_data$cluster), FUN = mean)
+
+
+ggplot(shopping_data, aes(x = Age, y = Purchase.Amount..USD., color = cluster)) +
+  geom_point(alpha = 0.6) +
+  labs(title = "Shopper Clusters", color = "Cluster")
+
+
+```
 
 Cluster analysis to uncover shopper groups (Loyal + Discount-heavy vs. Casual + Full-price shoppers)
 
