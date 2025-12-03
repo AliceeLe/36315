@@ -74,29 +74,25 @@ ANOVA to compare spending across categories or seasons
 
 Interaction effects (e.g., Does discount impact high-frequency shoppers more?)
 
-✅ Boxplots
+✅ Boxplots - Hailey
 
 Purchase Amount vs. Gender
 
 These show differences in spending across groups.
 
-✅ Spatial Graph
+✅ Spatial Graph - Hailey
 
 Average Purchase Amount by Location
 
-✅ Heatmap
+✅ Boxplot - Iris
 
 Correlations between:
 
 Purchase Amount
+PUrchase method
 
-Age
-
-Frequency
-
-Previous Purchases
-
-Useful to identify strong numerical predictors.
+Scatterplot - Iris
+Purchase Amount vs Age
 
 2. How does season affect the types of items purchased and the color of the items?
 
@@ -110,23 +106,45 @@ Logistic regression (Predict “Promo Code Used = Yes/No”)
 
 Cluster analysis to uncover shopper groups (Loyal + Discount-heavy vs. Casual + Full-price shoppers)
 
-✅ Faceted Bar Chart
+✅ Word Cloud - Michelle
 
-Bar Chart of Discount/Promo Code Usage, Faceted by Subscription Status, with Frequency Groups on the X-axis
-
-This shows all 3 variables clearly:
-
-Facet panels = Subscription Status (Subscribed vs Not Subscribed)
-
-X-axis = Frequency of Purchases (Low / Medium / High)
-
-Bar fill = Discount or Promo Code Used (Yes/No)
+color frequency by season
 
 
-✅  Scatter plot
+✅ Heatmap - Michelle
 
+This handles large numbers of categories beautifully.
+
+Why it works:
+
+Items go on the Y-axis
+
+Seasons go on the X-axis
+
+Color = number of purchases
+
+It scales well even if you have 20–50+ item types.
+
+Interpretation:
+
+Darker = purchased more often
+
+Lighter = purchased less often
 Frequency of Purchases (colored by subscription status) vs. purchase amount
 If frequency is truly numeric and continuous, this can show trends.
+
+✅ 1. Chi-Square Test of Independence (Most appropriate)
+
+Use this when both variables are categorical.
+
+You can run:
+a. Season × Item Purchased
+
+Tests whether certain items are bought more often in some seasons.
+
+b. Season × Color
+
+Tests whether certain colors are bought more often in certain seasons.
 
 
 3. How do discounts and shipping speed affect customer satisfaction (Review Rating)?
@@ -155,29 +173,32 @@ Regression predicting rating
 
 Comparing ratings across seasons or color/size groups
 
-✅ Boxplots
+⭐ 2. Violin Plot - Alice
 
-Review Rating vs. Category
+A more detailed version of the boxplot.
 
-Review Rating vs. Season
+Why use it:
 
-This shows which categories or seasons perform best.
+Shows full distribution of review ratings
 
-✅ Bar Chart
+Useful if ratings aren’t normally distributed
 
-Average Review Rating by Color
+Same structure as boxplot:
 
-Average Rating by Size
+X = Shipping Type
 
-✅ Scatterplot
+Y = Review Rating
 
-Purchase Amount vs. Review Rating
-Higher spending may correlate with more satisfaction—or dissatisfaction.
+Color = Discount
 
-✅ Violin Plot (optional)
 
-For Rating distributions by Category or Season—gives more detail than a boxplot.
+- A dendrogram is an excellent choice for your question, because it shows clusters of customers based on: - Alice
 
+Discount used (Yes/No)
+
+Shipping type (categorical)
+
+Review rating (numeric or binned)
 \newpage 
 
 ## Question 1 
