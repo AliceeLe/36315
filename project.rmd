@@ -210,56 +210,50 @@ Tests whether certain colors are bought more often in certain seasons.
 
 3. How do discounts and shipping speed affect customer satisfaction (Review Rating)?
 
-Variables involved:
+✅  Violin plot  - Alice
 
-Review Rating
+```{r}
+ggplot(shopping_data, aes(x = Shipping.Type, y = Review.Rating, fill = Shipping.Type)) +
+  geom_violin(trim = FALSE, alpha = 0.7, color = NA) +
+  geom_boxplot(width = 0.18, outlier.size = 0.8, alpha = 0.9) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Review Ratings by Shipping Type",
+    x = "Shipping Type",
+    y = "Review Rating"
+  ) +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 30, hjust = 1)
+  )
+```
 
-Category
+```{r}
+anova_model <- aov(Review.Rating ~ Shipping.Type, data = shopping_data)
+summary(anova_model)
+```
 
-Size
+```{r}
+ggplot(shopping_data, aes(x = Discount.Applied, y = Review.Rating, fill = Discount.Applied)) +
+  geom_violin(trim = FALSE, alpha = 0.7, color = NA) +
+  geom_boxplot(width = 0.18, outlier.size = 0.8, alpha = 0.9) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Review Ratings by Discount Usage",
+    x = "Discount Applied?",
+    y = "Review Rating"
+  ) +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 30, hjust = 1)
+  )
 
-Color
+```
 
-Season
+```{r}
+t.test(Review.Rating ~ Discount.Applied, data = shopping_data)
+```
 
-Shipping Type
-
-Purchase Amount (could influence expectations)
-
-Possible analyses:
-
-ANOVA (Do different product categories receive different ratings?)
-
-Regression predicting rating
-
-Comparing ratings across seasons or color/size groups
-
-⭐ 2. Violin Plot - Alice
-
-A more detailed version of the boxplot.
-
-Why use it:
-
-Shows full distribution of review ratings
-
-Useful if ratings aren’t normally distributed
-
-Same structure as boxplot:
-
-X = Shipping Type
-
-Y = Review Rating
-
-Color = Discount
-
-
-- A dendrogram is an excellent choice for your question, because it shows clusters of customers based on: - Alice
-
-Discount used (Yes/No)
-
-Shipping type (categorical)
-
-Review rating (numeric or binned)
 \newpage 
 
 ## Question 1 
