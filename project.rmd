@@ -80,13 +80,6 @@ Purchase Amount vs. Gender
 
 These show differences in spending across groups.
 
-✅ Scatterplots
-
-Purchase Amount vs. Age
-
-Purchase Amount vs. Frequency of Purchases
-Add a regression line for interpretation.
-
 ✅ Spatial Graph
 
 Average Purchase Amount by Location
@@ -105,19 +98,9 @@ Previous Purchases
 
 Useful to identify strong numerical predictors.
 
-2. Does customer loyalty (Frequency of Purchases or Subscription Status) influence the likelihood of using discounts or promo codes?
+2. How does season affect the types of items purchased and the color of the items?
 
 Variables involved:
-
-Frequency of Purchases
-
-Subscription Status
-
-Discount Applied
-
-Promo Code Used
-
-Previous Purchases
 
 Possible analyses:
 
@@ -127,31 +110,26 @@ Logistic regression (Predict “Promo Code Used = Yes/No”)
 
 Cluster analysis to uncover shopper groups (Loyal + Discount-heavy vs. Casual + Full-price shoppers)
 
-✅ Stacked Bar Chart
+✅ Faceted Bar Chart
 
-Discount Applied (Yes/No) by Subscription Status
-Shows whether subscribers use more discounts.
+Bar Chart of Discount/Promo Code Usage, Faceted by Subscription Status, with Frequency Groups on the X-axis
 
-✅ Clustered Bar Chart
+This shows all 3 variables clearly:
 
-Promo Code Used vs. Frequency of Purchases groups
-Example grouping: Low / Medium / High frequency.
+Facet panels = Subscription Status (Subscribed vs Not Subscribed)
 
-✅ Heatmap or Mosaic Plot
+X-axis = Frequency of Purchases (Low / Medium / High)
 
-Shows relationships among two categorical variables:
+Bar fill = Discount or Promo Code Used (Yes/No)
 
-Subscription Status
 
-Promo Code Used
+✅  Scatter plot
 
-✅ Line Chart
-
-Frequency of Purchases vs. Average Discount Applied
+Frequency of Purchases (colored by subscription status) vs. purchase amount
 If frequency is truly numeric and continuous, this can show trends.
 
 
-3. How do product attributes (Category, Size, Color, Season) affect customer satisfaction (Review Rating)?
+3. How do discounts and shipping speed affect customer satisfaction (Review Rating)?
 
 Variables involved:
 
