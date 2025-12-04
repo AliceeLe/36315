@@ -261,7 +261,7 @@ Cluster analysis to uncover shopper groups (Loyal + Discount-heavy vs. Casual + 
 
 color frequency by season
 
-```{r, fig.width=10}
+```{r}
 # PUT YOUR CODE AND GRAPH HERE
 library(tidyverse)
 library(tm)
@@ -285,7 +285,7 @@ tdm <- TermDocumentMatrix(corpus)
 tdm_matrix <- as.matrix(tdm)
 colnames(tdm_matrix) <- season_text$Season
 
-comparison.cloud(tdm_matrix,random.order = FALSE, colors = c("goldenrod", "palegreen2", "pink", "skyblue4"))
+comparison.cloud(tdm_matrix,random.order = FALSE, colors = c("goldenrod", "palegreen2", "pink", "skyblue4"), title.size = 2)
 
 
 ```
