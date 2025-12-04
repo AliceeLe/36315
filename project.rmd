@@ -313,6 +313,25 @@ Lighter = purchased less often
 Frequency of Purchases (colored by subscription status) vs. purchase amount
 If frequency is truly numeric and continuous, this can show trends.
 
+```{r}
+shopping_data_counts <- shopping_data %>% 
+  mutate(Season = factor(Season, 
+                         levels = c("Spring", "Summer", "Fall", "Winter"))) %>%
+  count(Item.Purchased, Season, name = "purchase_count")
+
+
+ggplot(shopping_data_counts, aes(x = Season, y = Item.Purchased, fill = purchase_count)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "lightyellow", high = "darkred") +
+  labs(
+    title = "Purchases by Item and Season",
+    x = "Season",
+    y = "Item",
+    fill = "Number of Purchases"
+  )
+
+```
+
 ✅ 1. Chi-Square Test of Independence (Most appropriate)
 
 Use this when both variables are categorical.
