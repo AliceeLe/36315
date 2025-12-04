@@ -168,13 +168,20 @@ Purchase Amount vs Age
 
 ```{r}
 
-ggplot(shopping_data, aes(x = Age, y = Purchase.Amount..USD., color = Season)) +
-  geom_point(alpha = 0.2, size = 0.7) +
+avg_by_age <- shopping_data %>%
+  group_by(Age) %>%
+  summarise(
+    mean_purchase = mean(Purchase.Amount..USD., na.rm = TRUE),
+    n = n()
+  )
+ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = Age)) +
+
+  geom_point() +
   labs(
-    title = "Scatterplot - Iris: Purchase Amount vs Age",
+    title = "Average Purchase Amount by Age",
     x = "Age",
-    y = "Purchase Amount (USD)"
-  ) 
+    y = "Mean Purchase Amount (USD)"
+  )
 ```
 **2. How does season affect the types of items purchased and the color of the items? **
 **Season does not seem to have a significant affect on the types of items purchased and color of the items.**
@@ -212,50 +219,6 @@ summary(promo_model)
 ```
 
 
-Cluster analysis to uncover shopper groups (Loyal + Discount-heavy vs. Casual + Full-price shoppers)
-
-```{r}
-
-library(dplyr)
-library(ggplot2)
-
-cluster_df <- shopping_data %>%
-  mutate(
-    discount_bin = if_else(Discount.Applied == "Yes", 1, 0),
-    promo_bin    = if_else(Promo.Code.Used == "Yes", 1, 0),
-    sub_bin      = if_else(Subscription.Status == "Yes", 1, 0)
-  ) %>%
-  select(
-    Age,
-    Purchase.Amount..USD.,
-    Previous.Purchases,
-    discount_bin,
-    promo_bin,
-    sub_bin
-  )
-
-
-cluster_scaled <- scale(cluster_df)
-
-set.seed(123)
-k2 <- kmeans(cluster_scaled, centers = 2, nstart = 25)
-
-
-shopping_data <- shopping_data %>%
-  mutate(cluster = factor(k2$cluster))
-
-
-aggregate(cluster_df, by = list(cluster = shopping_data$cluster), FUN = mean)
-
-
-ggplot(shopping_data, aes(x = Age, y = Purchase.Amount..USD., color = cluster)) +
-  geom_point(alpha = 0.6) +
-  labs(title = "Shopper Clusters", color = "Cluster")
-
-
-```
-
-Cluster analysis to uncover shopper groups (Loyal + Discount-heavy vs. Casual + Full-price shoppers)
 
 ✅ Word Cloud - Michelle
 
