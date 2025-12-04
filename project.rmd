@@ -224,6 +224,35 @@ summary(promo_model)
 
 color frequency by season
 
+```{r}
+# PUT YOUR CODE AND GRAPH HERE
+library(tidyverse)
+library(tm)
+library(wordcloud)
+
+shopping <- read.csv("shopping_behavior_updated.csv")
+season_text <- shopping %>%
+  group_by(Season) %>%
+  summarise(text = paste(Color, collapse = " "))
+
+corpus <- VCorpus(VectorSource(season_text$text))
+
+corpus <- corpus %>%
+  tm_map(content_transformer(tolower)) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removeWords, stopwords("english"))
+
+tdm <- TermDocumentMatrix(corpus)
+
+tdm_matrix <- as.matrix(tdm)
+colnames(tdm_matrix) <- season_text$Season
+
+comparison.cloud(tdm_matrix,random.order = FALSE, colors = c("goldenrod", "palegreen2", "pink", "skyblue4"), title.size = 2)
+
+
+```
+
 
 ✅ Heatmap - Michelle
 
@@ -246,6 +275,25 @@ Darker = purchased more often
 Lighter = purchased less often
 Frequency of Purchases (colored by subscription status) vs. purchase amount
 If frequency is truly numeric and continuous, this can show trends.
+
+```{r}
+shopping_data_counts <- shopping_data %>% 
+  mutate(Season = factor(Season, 
+                         levels = c("Spring", "Summer", "Fall", "Winter"))) %>%
+  count(Item.Purchased, Season, name = "purchase_count")
+
+
+ggplot(shopping_data_counts, aes(x = Season, y = Item.Purchased, fill = purchase_count)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "lightyellow", high = "darkred") +
+  labs(
+    title = "Purchases by Item and Season",
+    x = "Season",
+    y = "Item",
+    fill = "Number of Purchases"
+  )
+
+```
 
 ✅ 1. Chi-Square Test of Independence (Most appropriate)
 
