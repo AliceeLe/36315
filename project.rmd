@@ -157,7 +157,7 @@ library(ggplot2)
 ggplot(shopping_data, aes(x = Payment.Method, y = Purchase.Amount..USD., fill= Payment.Method)) +
   geom_boxplot() +
   labs(
-    title = "Boxplot - Iris: Purchase Amount by Purchase Method",
+    title = "Purchase Amount by Purchase Method",
     x = "Purchase Method",
     y = "Purchase Amount (USD)"
   )
