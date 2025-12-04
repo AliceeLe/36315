@@ -10,13 +10,13 @@ output:
 urlcolor: blue
 ---
 
-## Motivation section 
+## Motivation section (Iris)
 
 What is the quality of these elements? Does the title tell us what to expect of the report to follow? 
 Does the motivation section convince the reader that the broader study
 of this data set could elicit interesting insights?
 
-## Description of Dataset 
+## Description of Dataset (Alice)
 
 ```{r, warning = True, message = F}
 library(tidyverse)
@@ -30,7 +30,7 @@ What is the quality of this description? Does it clearly communicate what
 the rows and columns (i.e., observations and variables) are in the dataset in a way that is understandable
 to a CMU statistics undergraduate audience?
 
-## 3 Research Questions
+## 3 Research Questions 
 
 What is the quality of the research questions? Are they well-motivated by
 real-world/scientific interests? Or are they shallow? For example, a very shallow question would be
@@ -357,125 +357,27 @@ t.test(Review.Rating ~ Discount.Applied, data = shopping_data)
 
 \newpage 
 
-## Question 1 
+## Question 1 (Hailey, Iris)
 
 Graph, Description
 
 \newpage 
 
-## Question 2
+## Question 2 (Michelle)
 
 Graph, Description
 
 \newpage 
 
-## Question 3 
+## Question 3 (Alice)
 
 Graph, Description 
 
 \newpage 
 
-## Evaluation/Future work 
+## Evaluation/Future work (Michelle)
 
 ***
 ***
 
 
-# Old Draft 
-
-```{r, warning = F, message = F}
-library(tidyverse)
-library(ggplot2)
-
-url <- "https://raw.githubusercontent.com/AliceeLe/36315/main/diabetes_012_health_indicators_BRFSS2015.csv"
-diabetes_dataset <- read.csv(url, header = TRUE, stringsAsFactors = FALSE)
-
-head(diabetes_dataset)
-```
-
-## EDA
-
-### Alice's EDA 
-
-```{r}
-ggplot(diabetes_dataset, aes(x = factor(Diabetes_012), y = BMI, fill = factor(Diabetes_012))) +
-  geom_boxplot() +
-  facet_wrap(~ HighBP,
-             labeller = labeller(HighBP = c("0" = "No High Blood Pressure", "1" = "High Blood Pressure"))) +
-  scale_fill_manual(values = c("0" = "lightblue", "1" = "gold", "2" = "salmon"),
-                    labels = c("0" = "None", "1" = "Prediabetes", "2" = "Diabetes")) +
-  labs(x = "Diagnosis",
-       y = "BMI",
-       fill = "Condition",
-       title = "BMI Distribution by Diagnosis and High Blood Pressure")
-
-```
-
-### Hailey's EDA 
-```{r}
-
-diabetes_dataset %>%
-  mutate(
-    Diabetes_Status = factor(Diabetes_012,
-                             levels = c(0, 1, 2),
-                             labels = c("No Diabetes", "Prediabetes", "Diabetes")),
-    High_BP = factor(HighBP,
-                     levels = c(0, 1),
-                     labels = c("Normal BP", "High BP"))
-  ) %>%
-  ggplot(aes(x = BMI, y = GenHlth, color = Diabetes_Status)) +
-  geom_point(alpha = 0.4, size = 1.5) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 1.2) +
-  scale_color_manual(values = c("No Diabetes" = "green", 
-                                 "Prediabetes" = "orange", 
-                                 "Diabetes" = "red")) +
-  labs(
-    title = "Relationship Between BMI and General Health by Diabetes Status",
-    subtitle = "Higher general health scores indicate worse health (1=Excellent, 5=Poor)",
-    x = "Body Mass Index (BMI)",
-    y = "General Health Rating (1-5 scale)",
-    color = "Diabetes Status"
-  )
-```
-
-
-
-### Michelle's EDA
-```{r}
-diabetesByAge <- diabetes_dataset %>%
-  mutate(AgeCategory = factor(Age, levels = sort(unique(Age)),
-                              labels = c("18–24","25–29","30–34","35–39","40–44","45–49",
-                                         "50–54","55–59","60–64","65–69","70–74","75–79","80+")))
-ggplot(diabetesByAge, aes(x = BMI,
-                 y = AgeCategory,
-                 color = factor(HighBP))) +
-  geom_point(alpha = 0.4) +
-  scale_color_manual(values = c("blue", "red"),
-                     labels = c("No High Blood Pressure", "High Blood Pressure")) +
-  labs(
-    title = "BMI and Age vs. High Blood Pressure Status",
-    x = "Body Mass Index (BMI)",
-    y = "Age Category",
-    color = "High Blood Pressure",
-    caption = "Data: Diabetes Health Indicators Dataset"
-  )
-```
-
-### Iris's EDA 
-
-```{r}
-
-heat_data <- diabetes_dataset %>%
-  group_by(Age, Diabetes_012) %>%
-  summarize(mean_BMI = mean(BMI))
-
-ggplot(heat_data,
-       aes(x = Age, y = Diabetes_012, fill = mean_BMI)) +
-  geom_tile() +
-  labs(
-    title = "Heatmap of Average BMI by Age and Diabetes Status",
-    x = "Age (BRFSS numeric categories)",
-    y = "Diabetes_012 (0 = None, 1 = Prediabetes, 2 = Diabetes)",
-    fill = "Mean BMI"
-  )
-```
