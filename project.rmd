@@ -157,7 +157,7 @@ library(ggplot2)
 ggplot(shopping_data, aes(x = Payment.Method, y = Purchase.Amount..USD., fill= Payment.Method)) +
   geom_boxplot() +
   labs(
-    title = "Boxplot - Iris: Purchase Amount by Purchase Method",
+    title = "Purchase Amount by Purchase Method",
     x = "Purchase Method",
     y = "Purchase Amount (USD)"
   )
@@ -167,21 +167,26 @@ Scatterplot - Iris
 Purchase Amount vs Age
 
 ```{r}
-
 avg_by_age <- shopping_data %>%
   group_by(Age) %>%
   summarise(
     mean_purchase = mean(Purchase.Amount..USD., na.rm = TRUE),
     n = n()
   )
-ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = Age)) +
 
-  geom_point() +
+ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = mean_purchase)) +
+  geom_point(size = 2) +
+  scale_color_gradient(
+    low  = "blue",   # cheaper
+    high = "red"     # higher
+  ) +
   labs(
     title = "Average Purchase Amount by Age",
     x = "Age",
-    y = "Mean Purchase Amount (USD)"
+    y = "Mean Purchase Amount (USD)",
+    color = "Mean\nPurchase"
   )
+
 ```
 **2. How does season affect the types of items purchased and the color of the items? **
 **Season does not seem to have a significant affect on the types of items purchased and color of the items.**
