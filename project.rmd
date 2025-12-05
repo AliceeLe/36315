@@ -38,41 +38,7 @@ in the form, “what does the distribution of this variable look like?” - thre
 guarantee 0pts for this item. A more interesting question would motivate why we would like to inspect
 particular distributions with real-world context
 
-1. What factors predict how much a customer spends (Purchase Amount)?
-
-Variables involved:
-
-Age
-
-Gender
-
-Category / Item Purchased
-
-Size, Color
-
-Season
-
-Discount Applied
-
-Promo Code Used
-
-Previous Purchases
-
-Subscription Status
-
-Location
-
-Payment Method
-
-Frequency of Purchases
-
-Possible analyses:
-
-Multiple regression to identify significant predictors of spending
-
-ANOVA to compare spending across categories or seasons
-
-Interaction effects (e.g., Does discount impact high-frequency shoppers more?)
+## Question 1: What factors predict how much a customer spends (Purchase Amount)?
 
 ✅ Boxplots - Hailey
 
@@ -314,7 +280,9 @@ b. Season × Color
 Tests whether certain colors are bought more often in certain seasons.
 
 
-3. How do discounts and shipping speed affect customer satisfaction (Review Rating)?
+## Question 3: How do discounts and shipping speed affect customer satisfaction (Review Rating)?
+
+Description: 
 
 ✅  Violin plot  - Alice
 
@@ -362,7 +330,6 @@ t.test(Review.Rating ~ Discount.Applied, data = shopping_data)
 
 \newpage 
 
-## Question 1 (Hailey, Iris)
 
 Graph, Description
 
@@ -374,9 +341,6 @@ Graph, Description
 
 \newpage 
 
-## Question 3 (Alice)
-
-Graph, Description 
 
 \newpage 
 
