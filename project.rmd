@@ -1,5 +1,5 @@
 ---
-title: "36-315 Project [Change Title]"
+title: "Understanding Retail Consumer Behavior: Predictors of Spending, Product Choice, and Customer Satisfaction"
 author: "Alice Le, Michelle Jiang, Hailey Tan, Iris Yin"
 output:
   pdf_document:
@@ -10,15 +10,24 @@ output:
 urlcolor: blue
 ---
 
-## Motivation section (Iris)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,      # hide all R code
+  message = FALSE,   # hide messages
+  warning = FALSE,   # hide warnings
+  results = "hide"   # hide printed output unless overridden
+)
+```
+
+# Motivation section (Iris)
 
 What is the quality of these elements? Does the title tell us what to expect of the report to follow? 
 Does the motivation section convince the reader that the broader study
 of this data set could elicit interesting insights?
 
-## Description of Dataset (Alice)
+# Description of Dataset (Alice)
 
-```{r, warning = True, message = F}
+```{r, message = F}
 library(tidyverse)
 library(ggplot2)
 
@@ -26,21 +35,54 @@ shopping_data <- read.csv("shopping_behavior_updated.csv")
 head(shopping_data)
 ```
 
-What is the quality of this description? Does it clearly communicate what
-the rows and columns (i.e., observations and variables) are in the dataset in a way that is understandable
-to a CMU statistics undergraduate audience?
 
-## 3 Research Questions 
+As stated, the dataset describes the shopping behavior of consumers, where each row represents an individual customer and their purchasing activity, including what they bought, how much they spent, how often they shop, their demographic attributes, and whether they used discounts or promotional codes.
 
-What is the quality of the research questions? Are they well-motivated by
-real-world/scientific interests? Or are they shallow? For example, a very shallow question would be
-in the form, “what does the distribution of this variable look like?” - three questions like this would
-guarantee 0pts for this item. A more interesting question would motivate why we would like to inspect
-particular distributions with real-world context
 
-## Question 1: What factors predict how much a customer spends (Purchase Amount)?
+Generally, the dataset is of good quality with no missing values or duplicate rows. There are 3900 rows in total, and each row corresponds to a unique customer’s purchase transaction collected across a variety of U.S. states.
 
-✅ Boxplots - Hailey
+
+**Where does it come from??**
+As stated, the dataset describes the shopping behavior of consumers, where [insert]
+
+The variables in the dataset are:
+
++ `Customer.ID`: The unique ID of each customer
++ `Age`: The age of customer (in years). Range from 18 to 70 years old.
++ `Gender`: Gender of customer
++ `Item.Purchased`: Type of item that the customer bought, such as Blouse, Sweater, Scarf, etc.
++ `Category`: Broader category of the item purchased. There are 4 categories: Clothing, Footwear, Outerwear, and Accessories
++ `Purchase.Amount..USD`: The amount spent on the purchased item, in US dollars
++ `Location`: The US state where the customer resides
++ `Size`: Size of the clothing item. There are 4 sizes: S, M, L, XL
++ `Color`: Color of the clothing item
++ `Season`: 
++ `Review.Rating`
++ `Subscription.Status`
++ `Shipping.Type`: The method of shipping used for the order (e.g., "Express", "Free Shipping", "Next Day Air", "2-Day Shipping", "Store Pickup"). Indicates speed and delivery preferences
++ `Discount.Applied`: Whether a discount was applied to the purchase
++ `Promo.Code.Used`: Whether a promotion code was applied to the purchase
++ `Previous.Purchases`: The number of purchases the customer made before this transaction
++ `Payment.Method`: The payment method used for the transaction. There are 6 options: Cash, Bank Transfer, Debit Card, Credit Card, Venmo, and Paypal 
++ `Frequency.of.Purchases`: How often the customer shops. The frequencies include Weekly, Fortnightly, Bi-weekly, Monthly, Every 3 Months, Quarterly, and Annually
+
+# 3 Research Questions 
+
+Stated below are our 3 research questions: 
+
+1. What factors predict how much a customer spends (Purchase Amount)?
+
+2. How does season affect the types of items purchased and the color of the items? 
+
+3. How do discounts and shipping speed affect customer satisfaction (Review Rating)?
+
+These research questions address core mechanisms of consumer behavior: spending determinants, seasonal purchasing patterns, and satisfaction drivers. Together, they allow us to examine how economic, temporal, and operational factors shape shopping outcomes in a way that is meaningful for both behavioral analysis and retail decision-making.
+
+
+\newpage
+# Question 1: What factors predict how much a customer spends (Purchase Amount)?
+
+## Boxplots - Hailey
 
 Purchase Amount vs. Gender
 
@@ -67,7 +109,7 @@ ggplot(shopping_data, aes(x = Gender, y = Purchase.Amount..USD., fill = Gender))
 
 
 
-✅ Spatial Graph - Hailey
+## Spatial Graph - Hailey
 
 Average Purchase Amount by Location
 
@@ -111,7 +153,7 @@ ggplot(map_with_shopping, aes(x = long, y = lat, group = group, fill = avg_purch
 ```
 
 
-✅ Boxplot - Iris
+## Boxplot - Iris
 
 Correlations between:
 
@@ -129,7 +171,8 @@ ggplot(shopping_data, aes(x = Payment.Method, y = Purchase.Amount..USD., fill= P
   )
 
 ```
-Scatterplot - Iris
+
+## Scatterplot - Iris
 Purchase Amount vs Age
 
 ```{r}
@@ -154,10 +197,14 @@ ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = mean_purchase)) +
   )
 
 ```
-**2. How does season affect the types of items purchased and the color of the items? **
+
+\newpage 
+
+## Question 2: How does season affect the types of items purchased and the color of the items? 
+
 **Season does not seem to have a significant affect on the types of items purchased and color of the items.**
 
-**Variables involved: Season (Winter, Spring, Summer, Fall).Type of item purchased – e.g., Category or Item Purchased，Color of item – Color**
+**Variables involved: Season (Winter, Spring, Summer, Fall).Type of item purchased – e.g., Category or Item Purchased, Color of item – Color**
 
 **Possible analyses:Use visualizations such as stacked/clustered bar charts or mosaic plots to compare item types and colors across seasons.**
 
@@ -191,7 +238,7 @@ summary(promo_model)
 
 
 
-✅ Word Cloud - Michelle
+## Word Cloud - Michelle
 
 color frequency by season
 
@@ -225,7 +272,7 @@ comparison.cloud(tdm_matrix,random.order = FALSE, colors = c("goldenrod", "paleg
 ```
 
 
-✅ Heatmap - Michelle
+## Heatmap - Michelle
 
 This handles large numbers of categories beautifully.
 
@@ -266,7 +313,7 @@ ggplot(shopping_data_counts, aes(x = Season, y = Item.Purchased, fill = purchase
 
 ```
 
-✅ 1. Chi-Square Test of Independence (Most appropriate)
+### 1. Chi-Square Test of Independence (Most appropriate)
 
 Use this when both variables are categorical.
 
@@ -279,12 +326,13 @@ b. Season × Color
 
 Tests whether certain colors are bought more often in certain seasons.
 
+\newpage 
 
-## Question 3: How do discounts and shipping speed affect customer satisfaction (Review Rating)?
+# Question 3: How do discounts and shipping speed affect customer satisfaction (Review Rating)?
 
 Description: 
 
-✅  Violin plot  - Alice
+## Violin plot  - Alice
 
 ```{r}
 ggplot(shopping_data, aes(x = Shipping.Type, y = Review.Rating, fill = Shipping.Type)) +
@@ -302,7 +350,7 @@ ggplot(shopping_data, aes(x = Shipping.Type, y = Review.Rating, fill = Shipping.
   )
 ```
 
-```{r}
+```{r, echo=FALSE, results='show'}
 anova_model <- aov(Review.Rating ~ Shipping.Type, data = shopping_data)
 summary(anova_model)
 ```
@@ -324,29 +372,14 @@ ggplot(shopping_data, aes(x = Discount.Applied, y = Review.Rating, fill = Discou
 
 ```
 
-```{r}
+```{r, echo=FALSE, results='show'}
 t.test(Review.Rating ~ Discount.Applied, data = shopping_data)
 ```
 
 \newpage 
 
 
-Graph, Description
+# Evaluation/Future work (Michelle)
 
-\newpage 
-
-## Question 2 (Michelle)
-
-Graph, Description
-
-\newpage 
-
-
-\newpage 
-
-## Evaluation/Future work (Michelle)
-
-***
-***
 
 
