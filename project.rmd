@@ -328,11 +328,13 @@ Tests whether certain colors are bought more often in certain seasons.
 
 \newpage 
 
-# Question 3: How do discounts and shipping speed affect customer satisfaction (Review Rating)?
+# Question 3: How do shipping speed and discount affect customer satisfaction (Review Rating)?
 
-Description: 
+Shipping speed and discounts are key components of the customer experience, and both may meaningfully influence how satisfied customers feel with their purchase. Hence, we would visualize the distribution of customer satisfaction across different shipping methods and whether there are discount applied using violin plots. Besides providing the the 5-number summary like what a box plot would, a violin plot also shows the distribution so we can examine whether there is skewness or outliers as well.
 
-## Violin plot  - Alice
+Then, we would conduct an ANOVA test to examine the mean review ratings across 6 different shipping methods and a two-sample t-test to compare review ratings between two groups (“Yes” vs. “No”). These tests would help us answer whether in this dataset, shipping speed and discount have a statistically significant relationship with customer satisfaction.
+
+## Review Raings by Shipping Type
 
 ```{r}
 ggplot(shopping_data, aes(x = Shipping.Type, y = Review.Rating, fill = Shipping.Type)) +
@@ -350,10 +352,22 @@ ggplot(shopping_data, aes(x = Shipping.Type, y = Review.Rating, fill = Shipping.
   )
 ```
 
+
+From the following violin plot, we observe that the median rating are fairly similar across all shipping types, ranging between 3.6 to 3.7. Yet, standard and express shipping have a slightly higher median. The other values like min, max, first and third quartile seem to be similar as well. There's no outlier and skewness for any shipping type. All shipping types exhibit a similar spread, which suggests that variability in satisfaction may not strongly tied to delivery method. 
+
+
+
 ```{r, echo=FALSE, results='show'}
 anova_model <- aov(Review.Rating ~ Shipping.Type, data = shopping_data)
 summary(anova_model)
 ```
+
+
+Because the p-value for the ANOVA test is smaller than 0.05, we can conclude that average satisfaction differs across at least some shipping categories. However, when accompanying with the graph above, we see that there's not much variation in the distribution of average rating across shipping types. Hence, we can say that while shipping type may have a statistically detectable association with review ratings, the practical differences between shipping methods are likely minimal.
+
+
+## Review Raings vs. Discount Applied
+
 
 ```{r}
 ggplot(shopping_data, aes(x = Discount.Applied, y = Review.Rating, fill = Discount.Applied)) +
@@ -372,9 +386,17 @@ ggplot(shopping_data, aes(x = Discount.Applied, y = Review.Rating, fill = Discou
 
 ```
 
+The violin plot comparing review ratings for customers who did and did not receive a discount shows that the two groups have nearly identical distributions. Both groups center around ratings of approximately 3.7, with very similar spreads and shapes. There is no visible indication that receiving a discount leads to higher or lower satisfaction. The substantial overlap between the groups suggests little practical difference.
+
+
 ```{r, echo=FALSE, results='show'}
 t.test(Review.Rating ~ Discount.Applied, data = shopping_data)
 ```
+
+The difference in mean ratings between customers who did not receive a discount (mean = 3.758) and those who did (mean = 3.740) is not statistically significant (t = 0.779, p = 0.436). The 95% confidence interval for the mean difference includes a zero (–0.027 to 0.063), indicating that any difference is small and likely due to random variation. Overall, the evidence suggests that discount usage does not meaningfully influence customer satisfaction.
+
+
+From this dataset, we can conclude that the usage of discount does not affect rating. Even though the ANOVA test shows that there is statistical significance between shipping type and rating, the violin plots suggest there is not much variation.
 
 \newpage 
 
