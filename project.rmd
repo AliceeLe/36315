@@ -192,6 +192,26 @@ ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = mean_purchase)) +
 
 ```
 
+
+## Unique Graph (Hexbin Heatmap) Hailey
+```{r}
+library(hexbin)
+
+ggplot(shopping_data, aes(x = Previous.Purchases, y = Purchase.Amount..USD.)) +
+  geom_hex(bins = 30) +
+  scale_fill_viridis_c(name = "Count", option = "inferno") +
+  geom_smooth(method = "lm", color = "cyan", se = TRUE, linewidth = 1.2) +
+  labs(
+    title = "Purchase Amount vs. Customer Loyalty",
+    x = "Number of Previous Purchases",
+    y = "Purchase Amount (USD)"
+  )
+```
+
+This hexbin heatmap shows pretty shocking results in that customer loyalty has little effect on spending per transaction. Each hexagon represents the density of customers at a given combination of previous purchases and purchase amount, with brighter colors indicating higher concentrations. The flat trend line around 60 USD and the uniform spread of points across the 20–100 USD range depicts how customers spend similar amounts whether they have made 5 past purchases or over 40. There are no standout clusters suggesting that new customers spend less or loyal customers spend more.
+
+These results portray that previous purchase count is not a meaningful predictor of purchase amount. Alongside earlier findings that gender also offers little explanatory power, this indicates that spending might be more driven by situational factors such as product type, seasonal needs, or promotions, than by demographics or shopping history. Loyal customers return frequently, but they do not spend more per visit, and for retailers, this means increasing transaction size requires focusing on product mix, bundling, and context-specific incentives rather than relying on loyalty from previous customers alone.
+
 \newpage 
 
 ## Question 2: How does season affect the types of items purchased and the color of the items? 
