@@ -195,22 +195,37 @@ ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = mean_purchase)) +
 
 ## Unique Graph (Hexbin Heatmap) Hailey
 ```{r}
-library(hexbin)
+library(ggbeeswarm)
+library(viridis)
 
-ggplot(shopping_data, aes(x = Previous.Purchases, y = Purchase.Amount..USD.)) +
-  geom_hex(bins = 30) +
-  scale_fill_viridis_c(name = "Count", option = "inferno") +
-  geom_smooth(method = "lm", color = "cyan", se = TRUE, linewidth = 1.2) +
+shopping_data_quartiles <- shopping_data %>%
+  mutate(Loyalty_Quartile = case_when(
+    Previous.Purchases <= quantile(Previous.Purchases, 0.25) ~ "Q1: Low Loyalty (0-12)",
+    Previous.Purchases <= quantile(Previous.Purchases, 0.50) ~ "Q2: Medium-Low (13-25)",
+    Previous.Purchases <= quantile(Previous.Purchases, 0.75) ~ "Q3: Medium-High (26-37)",
+    TRUE ~ "Q4: High Loyalty (38-50)"
+  )) %>%
+  mutate(Loyalty_Quartile = factor(Loyalty_Quartile, 
+                                   levels = c("Q1: Low Loyalty (0-12)", 
+                                            "Q2: Medium-Low (13-25)",
+                                            "Q3: Medium-High (26-37)", 
+                                            "Q4: High Loyalty (38-50)")))
+
+ggplot(shopping_data_quartiles, aes(x = Loyalty_Quartile, 
+                                     y = Purchase.Amount..USD., 
+                                     color = Purchase.Amount..USD.)) +
+  geom_quasirandom(alpha = 0.6, size = 1.5, width = 0.3) +
+  scale_color_viridis_c(option = "plasma", name = "Purchase\nAmount") +
   labs(
-    title = "Purchase Amount vs. Customer Loyalty",
-    x = "Number of Previous Purchases",
+    title = "Individual Spending Patterns Across Customer Loyalty Levels",
+    x = "Customer Loyalty Quartile",
     y = "Purchase Amount (USD)"
   )
 ```
 
-This hexbin heatmap shows pretty shocking results in that customer loyalty has little effect on spending per transaction. Each hexagon represents the density of customers at a given combination of previous purchases and purchase amount, with brighter colors indicating higher concentrations. The flat trend line around 60 USD and the uniform spread of points across the 20–100 USD range depicts how customers spend similar amounts whether they have made 5 past purchases or over 40. There are no standout clusters suggesting that new customers spend less or loyal customers spend more.
+This beeswarm plot shows 3,900 customers grouped by loyalty quartile, with each dot colored by purchase amount from 20 USD (dark blue) to 100 USD (yellow). The key takeaway is the striking uniformity across all four quartiles. Each group displays the same full gradient of spending, with dots evenly spread from low to high amounts. The shape, spread, and color distribution look nearly identical whether customers have made 0–12 previous purchases (Q1) or 38–50 (Q4), indicating that every loyalty level includes both low and high spending customers.
 
-These results portray that previous purchase count is not a meaningful predictor of purchase amount. Alongside earlier findings that gender also offers little explanatory power, this indicates that spending might be more driven by situational factors such as product type, seasonal needs, or promotions, than by demographics or shopping history. Loyal customers return frequently, but they do not spend more per visit, and for retailers, this means increasing transaction size requires focusing on product mix, bundling, and context-specific incentives rather than relying on loyalty from previous customers alone.
+This consistent pattern confirms that loyalty does not predict purchase amount. If highly loyal customers spent more, Q4 would show more yellow and orange at the top and fewer blue points at the bottom—but it does not. Combined with earlier results showing minimal effects of gender, this reinforces that spending is probably shaped more by situational factors like product type, timing, and promotions than by customer history. For retailers, this means increasing revenue per transaction might probably require focusing more on merchandising, bundling, and context instead of customer loyalty.
 
 \newpage 
 
