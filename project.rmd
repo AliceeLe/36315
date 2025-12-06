@@ -84,7 +84,9 @@ These research questions address core mechanisms of consumer behavior: spending 
 
 ## Boxplots - Hailey
 
-Purchase Amount vs. Gender
+To understand what drives customer spending, we start by examining how purchase amounts vary across key customer characteristics. Since purchase amount reflects a customer’s level of financial engagement, exploring its relationship with demographic and behavioral factors can help reveal broader spending patterns that can inform future marketing, segmentation, and retail strategies.
+
+As a first step, we look at gender as a core demographic variable. To compare spending across gender categories, we use a boxplot of purchase amount. This visualization highlights typical spending levels, the spread of purchase amounts, and differences in variability between groups, providing a clear and intuitive foundation for identifying factors that may predict customer spending.
 
 ```{r}
 ggplot(shopping_data, aes(x = Gender, y = Purchase.Amount..USD., fill = Gender)) +
@@ -92,22 +94,17 @@ ggplot(shopping_data, aes(x = Gender, y = Purchase.Amount..USD., fill = Gender))
   scale_fill_manual(values = c("Male" = "lightblue", "Female" = "lightpink")) +
   labs(
     title = "Purchase Amount Distribution by Gender",
-    subtitle = "Comparison of Shopping Spending Patterns",
     x = "Gender",
     y = "Purchase Amount (USD)",
     caption = "Data source: Shopping Behavior Dataset"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 16, face = "bold"),
-    plot.subtitle = element_text(size = 12),
-    axis.title = element_text(size = 12),
-  ) +
-  stat_summary(fun = mean, geom = "point", shape = 23, size = 3, 
-               fill = "white", color = "black")
+  )
 ```
 
+The boxplot shows that purchase amounts for males and females follow very similar patterns, with both groups centered around the mid-50 to 60 USD range and spanning from roughly the high 30s to the low 80s. The spreads and quartiles overlap substantially, indicating that gender might not be a strong predictor of how much customers spend. However, there is a small but noticeable difference in that the median purchase amount for females is slightly higher, suggesting they may spend marginally more on average, though not enough to indicate a major distinction between groups.
 
+This comparison helps establish that gender might not meaningfully drive differences in spending behavior. And thus for our research question, this finding is relevant as it suggests we should look beyond basic demographics. As the distributions are nearly identical, gender-based segmentation would likely not improve predictions of customer spending.
+
+Given the minimal differences observed here, our next step is to examine whether location provides stronger explanatory power as looking at purchase amount by geographic area may uncover regional spending patterns or market-level differences that gender alone cannot capture. The spatial graph below is especially effective since location-based trends are easier to interpret visually than in tables or non-spatial charts. By mapping average purchase amounts across the U.S., we can quickly identify clusters, regional contrasts, and potential spending hotspots.
 
 ## Spatial Graph - Hailey
 
@@ -141,16 +138,13 @@ ggplot(map_with_shopping, aes(x = long, y = lat, group = group, fill = avg_purch
   ) +
   labs(
     title = "Average Purchase Amount by State",
-    subtitle = "Shopping Behavior Analysis",
     caption = "Data source: Shopping Behavior Dataset"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 16, face = "bold"),
-    plot.subtitle = element_text(size = 12),
-    legend.position = "right"
   )
 ```
+
+The spatial analysis graph reveals clear regional variations in customer spending across the United States, with darker green areas indicating lower averages (around 57 USD) and red areas showing higher spending (around 66 USD). New Mexico and Pennsylvania record the highest levels, followed by Arizona, Montana, and parts of the upper Midwest, while the central plains, southern states, and sections of the West Coast fall within a moderate 60–63 USD range. Higher spending in New Mexico likely reflects dispersed populations and affluent tourist influence, whereas Pennsylvania’s pattern might stem from higher urban incomes and strong retail markets. 
+
+Understanding these trends can provide actionable insights for regional strategy. Retailers can focus premium products, loyalty programs, and targeted campaigns in high-spending markets while emphasizing value pricing and promotions in lower-spending areas. Beyond retail, such insights support more effective site selection, forecasting, and resource allocation. 
 
 
 ## Boxplot - Iris
