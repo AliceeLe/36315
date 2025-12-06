@@ -193,7 +193,7 @@ ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = mean_purchase)) +
 ```
 
 
-## Unique Graph (Hexbin Heatmap) Hailey
+## Unique Graph (Beeswarm) Hailey
 ```{r}
 library(ggbeeswarm)
 library(viridis)
