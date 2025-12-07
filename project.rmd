@@ -1,5 +1,5 @@
 ---
-title: "Understanding Retail Consumer Behavior: Predictors of Spending, Product Choice, and Customer Satisfaction"
+title: "Understanding Online Retail Consumer Behavior: Predictors of Spending, Product Choice, and Customer Satisfaction"
 author: "Alice Le, Michelle Jiang, Hailey Tan, Iris Yin"
 output:
   pdf_document:
