@@ -104,7 +104,15 @@ ggplot(shopping_data, aes(x = Gender, y = Purchase.Amount..USD., fill = Gender))
   )
 ```
 
+
 The boxplot shows that purchase amounts for males and females follow very similar patterns, with both groups centered around the mid-50 to 60 USD range and spanning from roughly the high 30s to the low 80s. The spreads and quartiles overlap substantially, indicating that gender might not be a strong predictor of how much customers spend. However, there is a small but noticeable difference in that the median purchase amount for females is slightly higher, suggesting they may spend marginally more on average, though not enough to indicate a major distinction between groups.
+
+
+```{r}
+t.test(Purchase.Amount..USD. ~ Gender, data = shopping_data)
+```
+
+Similarly, we conducted a t-test of purchase amount by gender to more thoroughly depict these differences. Our test outputs a relatively high p-value of 0.3378, indicating that there is no significant difference in the spending and purchase amounts between male and female genders.
 
 This comparison helps establish that gender might not meaningfully drive differences in spending behavior. And thus for our research question, this finding is relevant as it suggests we should look beyond basic demographics. As the distributions are nearly identical, gender-based segmentation would likely not improve predictions of customer spending.
 
@@ -146,7 +154,7 @@ ggplot(map_with_shopping, aes(x = long, y = lat, group = group, fill = avg_purch
   )
 ```
 
-The spatial analysis graph reveals clear regional variations in customer spending across the United States, with darker green areas indicating lower averages (around 57 USD) and red areas showing higher spending (around 66 USD). New Mexico and Pennsylvania record the highest levels, followed by Arizona, Montana, and parts of the upper Midwest, while the central plains, southern states, and sections of the West Coast fall within a moderate 60–63 USD range. Higher spending in New Mexico likely reflects dispersed populations and affluent tourist influence, whereas Pennsylvania’s pattern might stem from higher urban incomes and strong retail markets. 
+The spatial analysis graph reveals clear regional variations in customer spending across the United States, with darker green areas indicating lower averages (around 57 USD) and red areas showing higher spending (around 66 USD). Arizona and Pennsylvania record the highest levels, followed by Montana and parts of the upper Midwest, while the central plains, southern states, and sections of the West Coast fall within a moderate 60–63 USD range. Higher spending in Arizona might likely reflect dispersed populations and affluent tourist influence, whereas Pennsylvania’s pattern might stem from higher urban incomes and affluent families moving to the state after retirement. 
 
 Understanding these trends can provide actionable insights for regional strategy. Retailers can focus premium products, loyalty programs, and targeted campaigns in high-spending markets while emphasizing value pricing and promotions in lower-spending areas. Beyond retail, such insights support more effective site selection, forecasting, and resource allocation. 
 
@@ -167,10 +175,12 @@ ggplot(shopping_data, aes(x = Payment.Method, y = Purchase.Amount..USD., fill= P
     x = "Purchase Method",
     y = "Purchase Amount (USD)"
   )
+anova_model <- aov(Purchase.Amount..USD. ~ Payment.Method, data = shopping_data)
+summary(anova_model)
 
 ```
 
-Each box shows the distribution of purchase amounts for a payment method (Bank Transfer, Cash, etc.), with Purchase Amount (USD) on the y-axis and Payment Method on the x-axis. All methods have very similar medians (around $60), so there doesn’t seem to be a strong difference in typical purchase size by payment method. Debit Card and Credit Card look like they might have slightly higher medians / upper quartiles, while Venmo seems to have a bit lower median and a wider spread (lower minimum). Overall, the graph suggests purchase amount is fairly consistent across methods, with only small differences in variability and center.
+Each box shows the distribution of purchase amounts for a payment method (Bank Transfer, Cash, etc.), with Purchase Amount (USD) on the y-axis and Payment Method on the x-axis. All methods have very similar medians (around $60), so there doesn’t seem to be a strong difference in typical purchase size by payment method. Debit Card and Credit Card look like they might have slightly higher medians / upper quartiles, while Venmo seems to have a bit lower median and a wider spread (lower minimum). Overall, the graph suggests purchase amount is fairly consistent across methods, with only small differences in variability and center. From the anova test, we can confirm that since the p-value is greater than 0.05, the difference is not significant.
 
 ## Scatterplot - Iris
 Purchase Amount vs Age
@@ -195,9 +205,19 @@ ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = mean_purchase)) +
     y = "Mean Purchase Amount (USD)",
     color = "Mean\nPurchase"
   )
+avg_by_age_clean <- avg_by_age %>%
+  filter(!is.na(Age), !is.na(mean_purchase))
+
+pearson_test <- cor.test(
+  avg_by_age_clean$Age,
+  avg_by_age_clean$mean_purchase,
+  method = "pearson"
+)
+
+pearson_test
 
 ```
-This graph shows the mean purchase amount across ages. Each point is an age and that age’s mean purchase amount; color also reflects the mean (blue = lower, red = higher). Most ages have mean purchases between about $55 and $65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount.
+This graph shows the mean purchase amount across ages. Each point is an age and that age’s mean purchase amount; color also reflects the mean (blue = lower, red = higher). Most ages have mean purchases between about $55 and $65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount. From the pearson test, we can see that since the p-value is greater than 0.05, the scatterplot has no significant trend.
 
 ## Unique Graph (Beeswarm) Hailey
 ```{r}
