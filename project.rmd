@@ -257,31 +257,6 @@ This consistent pattern confirms that loyalty does not predict purchase amount. 
 
 ## Question 2: How does season affect the types of items purchased and the color of the items? 
 
-```{r}
-
-df <- shopping_data %>%
-  mutate(
-    promo_used = if_else(Promo.Code.Used == "Yes", 1, 0)
-  )
-
-# Fit logistic regression
-promo_model <- glm(
-  promo_used ~ Age +
-    Purchase.Amount..USD. +
-    Season +
-    Discount.Applied +
-    Payment.Method +
-    Subscription.Status,
-  data = df,
-  family = binomial
-)
-
-summary(promo_model)
-
-```
-
-
-
 ## Word Cloud - Michelle
 ```{r}
 # PUT YOUR CODE AND GRAPH HERE
@@ -429,7 +404,7 @@ From this dataset, we can conclude that the usage of discount does not affect ra
 # Evaluation/Future work (Michelle)
 While this project addressed our three main research questions, there are still many different unanswered questions that we can explore. These questions came up as we were analyzing our data, however we weren't able to fully delve into them due to limitations on this dataset and the analytical tools we learned in this class.
 
-First, we were thinking about further analyzing the long-term shopping habits of these individuals. Currently, the dataset only provides information about singular purchases. However, having access to people's purchases over time would allow us to analyze questions such as how does shopping frequency affect people's spending over time? Additionally, we could analyze what factors are positively correlated to loyal customers (ie people who continue shopping at one place for extended periods of time).
+First, we were thinking about further analyzing the long-term shopping habits of these individuals. Currently, the dataset only provides information about singular purchases. However, having access to people's purchases over time would allow us to analyze questions such as how does shopping frequency affect people's spending over time? Additionally, this would provide more information than the loyal customer variable and give us more context about their variable.
 
 Additionally, in this class we never covered any topics related to causal inference, which could be useful with our research questions. All of the analyses that we did in this report has been based on correlations and trends. However, if we were able to conduct controlled experiments (which is unlikely given the nature of the dataset) or use specialized causal inference methods, we could see which factors actually drive changes in outcomes. This would allow us to predict the effects of business actions and help businesses make better decisions.
 
