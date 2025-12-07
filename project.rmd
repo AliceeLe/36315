@@ -104,7 +104,15 @@ ggplot(shopping_data, aes(x = Gender, y = Purchase.Amount..USD., fill = Gender))
   )
 ```
 
+
 The boxplot shows that purchase amounts for males and females follow very similar patterns, with both groups centered around the mid-50 to 60 USD range and spanning from roughly the high 30s to the low 80s. The spreads and quartiles overlap substantially, indicating that gender might not be a strong predictor of how much customers spend. However, there is a small but noticeable difference in that the median purchase amount for females is slightly higher, suggesting they may spend marginally more on average, though not enough to indicate a major distinction between groups.
+
+
+```{r}
+t.test(Purchase.Amount..USD. ~ Gender, data = shopping_data)
+```
+
+Similarly, we conducted a t-test of purchase amount by gender to more thoroughly depict these differences. Our test outputs a relatively high p-value of 0.3378, indicating that there is no significant difference in the spending and purchase amounts between male and female genders.
 
 This comparison helps establish that gender might not meaningfully drive differences in spending behavior. And thus for our research question, this finding is relevant as it suggests we should look beyond basic demographics. As the distributions are nearly identical, gender-based segmentation would likely not improve predictions of customer spending.
 
@@ -146,7 +154,7 @@ ggplot(map_with_shopping, aes(x = long, y = lat, group = group, fill = avg_purch
   )
 ```
 
-The spatial analysis graph reveals clear regional variations in customer spending across the United States, with darker green areas indicating lower averages (around 57 USD) and red areas showing higher spending (around 66 USD). New Mexico and Pennsylvania record the highest levels, followed by Arizona, Montana, and parts of the upper Midwest, while the central plains, southern states, and sections of the West Coast fall within a moderate 60–63 USD range. Higher spending in New Mexico likely reflects dispersed populations and affluent tourist influence, whereas Pennsylvania’s pattern might stem from higher urban incomes and strong retail markets. 
+The spatial analysis graph reveals clear regional variations in customer spending across the United States, with darker green areas indicating lower averages (around 57 USD) and red areas showing higher spending (around 66 USD). Arizona and Pennsylvania record the highest levels, followed by Montana and parts of the upper Midwest, while the central plains, southern states, and sections of the West Coast fall within a moderate 60–63 USD range. Higher spending in Arizona might likely reflect dispersed populations and affluent tourist influence, whereas Pennsylvania’s pattern might stem from higher urban incomes and affluent families moving to the state after retirement. 
 
 Understanding these trends can provide actionable insights for regional strategy. Retailers can focus premium products, loyalty programs, and targeted campaigns in high-spending markets while emphasizing value pricing and promotions in lower-spending areas. Beyond retail, such insights support more effective site selection, forecasting, and resource allocation. 
 
