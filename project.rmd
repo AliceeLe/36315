@@ -43,16 +43,13 @@ head(shopping_data)
 ```
 
 
+We take the dataset from this Kaggle link: https://www.kaggle.com/datasets/ayeshasiddiqa123/customer-shopping-behavior-dataset
+
 As stated, the dataset describes the shopping behavior of consumers, where each row represents an individual customer and their purchasing activity, including what they bought, how much they spent, how often they shop, their demographic attributes, and whether they used discounts or promotional codes.
 
 
-Generally, the dataset is of good quality with no missing values or duplicate rows. There are 3900 rows in total, and each row corresponds to a unique customer’s purchase transaction collected across a variety of U.S. states.
+The dataset is collected from an online retail platform. Generally, the dataset is of good quality with no missing values or duplicate rows. There are 3900 rows in total, and each row corresponds to a unique customer’s purchase transaction collected across a variety of U.S. states. The variables in the dataset are:
 
-
-**Where does it come from??**
-As stated, the dataset describes the shopping behavior of consumers, where [insert]
-
-The variables in the dataset are:
 
 + `Customer.ID`: The unique ID of each customer
 + `Age`: The age of customer (in years). Range from 18 to 70 years old.
@@ -63,9 +60,9 @@ The variables in the dataset are:
 + `Location`: The US state where the customer resides
 + `Size`: Size of the clothing item. There are 4 sizes: S, M, L, XL
 + `Color`: Color of the clothing item
-+ `Season`: 
-+ `Review.Rating`
-+ `Subscription.Status`
++ `Season`: Season of the year that the customer made the purchase
++ `Review.Rating`: Review rating the user gave for that purchase (from 0 to 5) 
++ `Subscription.Status`: Whether the customer subscribed to the store ("Yes" or "No")
 + `Shipping.Type`: The method of shipping used for the order (e.g., "Express", "Free Shipping", "Next Day Air", "2-Day Shipping", "Store Pickup"). Indicates speed and delivery preferences
 + `Discount.Applied`: Whether a discount was applied to the purchase
 + `Promo.Code.Used`: Whether a promotion code was applied to the purchase
