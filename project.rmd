@@ -1,5 +1,5 @@
 ---
-title: "Understanding Retail Consumer Behavior: Predictors of Spending, Product Choice, and Customer Satisfaction"
+title: "Understanding Online Retail Consumer Behavior: Predictors of Spending, Product Choice, and Customer Satisfaction"
 author: "Alice Le, Michelle Jiang, Hailey Tan, Iris Yin"
 output:
   pdf_document:
@@ -175,10 +175,12 @@ ggplot(shopping_data, aes(x = Payment.Method, y = Purchase.Amount..USD., fill= P
     x = "Purchase Method",
     y = "Purchase Amount (USD)"
   )
+anova_model <- aov(Purchase.Amount..USD. ~ Payment.Method, data = shopping_data)
+summary(anova_model)
 
 ```
 
-Each box shows the distribution of purchase amounts for a payment method (Bank Transfer, Cash, etc.), with Purchase Amount (USD) on the y-axis and Payment Method on the x-axis. All methods have very similar medians (around $60), so there doesn’t seem to be a strong difference in typical purchase size by payment method. Debit Card and Credit Card look like they might have slightly higher medians / upper quartiles, while Venmo seems to have a bit lower median and a wider spread (lower minimum). Overall, the graph suggests purchase amount is fairly consistent across methods, with only small differences in variability and center.
+Each box shows the distribution of purchase amounts for a payment method (Bank Transfer, Cash, etc.), with Purchase Amount (USD) on the y-axis and Payment Method on the x-axis. All methods have very similar medians (around $60), so there doesn’t seem to be a strong difference in typical purchase size by payment method. Debit Card and Credit Card look like they might have slightly higher medians / upper quartiles, while Venmo seems to have a bit lower median and a wider spread (lower minimum). Overall, the graph suggests purchase amount is fairly consistent across methods, with only small differences in variability and center. From the anova test, we can confirm that since the p-value is greater than 0.05, the difference is not significant.
 
 ## Scatterplot - Iris
 Purchase Amount vs Age
@@ -203,9 +205,19 @@ ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = mean_purchase)) +
     y = "Mean Purchase Amount (USD)",
     color = "Mean\nPurchase"
   )
+avg_by_age_clean <- avg_by_age %>%
+  filter(!is.na(Age), !is.na(mean_purchase))
+
+pearson_test <- cor.test(
+  avg_by_age_clean$Age,
+  avg_by_age_clean$mean_purchase,
+  method = "pearson"
+)
+
+pearson_test
 
 ```
-This graph shows the mean purchase amount across ages. Each point is an age and that age’s mean purchase amount; color also reflects the mean (blue = lower, red = higher). Most ages have mean purchases between about $55 and $65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount.
+This graph shows the mean purchase amount across ages. Each point is an age and that age’s mean purchase amount; color also reflects the mean (blue = lower, red = higher). Most ages have mean purchases between about $55 and $65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount. From the pearson test, we can see that since the p-value is greater than 0.05, the scatterplot has no significant trend.
 
 ## Unique Graph (Beeswarm) Hailey
 ```{r}
