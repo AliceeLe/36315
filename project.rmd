@@ -21,9 +21,16 @@ knitr::opts_chunk$set(
 
 # Motivation section (Iris)
 
-What is the quality of these elements? Does the title tell us what to expect of the report to follow? 
-Does the motivation section convince the reader that the broader study
-of this data set could elicit interesting insights?
+The dataset describes consumer behavior in various perspectives, allowing us understand why people buy things and what affects their choices. When we know this, companies can design better products, websites, and shopping experiences that feel easier and more enjoyable to use.
+
+It also helps stores plan better—like knowing how much to stock or when people are likely to buy certain items. Learning about shopping behavior can make recommendations more helpful without being intrusive or violating privacy.
+
+It also teaches us about the emotions and social influences behind buying decisions. And on a bigger scale, it can help with things like sustainability and understanding consumer trends.
+
+Overall, studying shopping behavior helps create smarter, more user-friendly, and more responsible shopping systems.
+
+
+
 
 # Description of Dataset (Alice)
 
@@ -166,6 +173,8 @@ ggplot(shopping_data, aes(x = Payment.Method, y = Purchase.Amount..USD., fill= P
 
 ```
 
+Each box shows the distribution of purchase amounts for a payment method (Bank Transfer, Cash, etc.), with Purchase Amount (USD) on the y-axis and Payment Method on the x-axis. All methods have very similar medians (around $60), so there doesn’t seem to be a strong difference in typical purchase size by payment method. Debit Card and Credit Card look like they might have slightly higher medians / upper quartiles, while Venmo seems to have a bit lower median and a wider spread (lower minimum). Overall, the graph suggests purchase amount is fairly consistent across methods, with only small differences in variability and center.
+
 ## Scatterplot - Iris
 Purchase Amount vs Age
 
@@ -191,7 +200,7 @@ ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = mean_purchase)) +
   )
 
 ```
-
+This graph shows the mean purchase amount across ages. Each point is an age and that age’s mean purchase amount; color also reflects the mean (blue = lower, red = higher). Most ages have mean purchases between about $55 and $65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount.
 
 ## Unique Graph (Beeswarm) Hailey
 ```{r}
