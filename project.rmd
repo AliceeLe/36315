@@ -268,9 +268,6 @@ summary(promo_model)
 
 
 ## Word Cloud - Michelle
-
-color frequency by season
-
 ```{r}
 # PUT YOUR CODE AND GRAPH HERE
 library(tidyverse)
@@ -299,30 +296,9 @@ comparison.cloud(tdm_matrix,random.order = FALSE, colors = c("goldenrod", "paleg
 
 
 ```
-
+This comparison word cloud shows how frequently different clothing colors are purchased across the four seasons. The size of each color name reflects how often it appears relative to the others within each season, allowing us to see general seasonal preferences for different colors. From this we can see that in the Spring, the most frequent colors are purple, beige, olive, gold, and gray suggesting a mix of soft neutrals and warm tones. Summer leans toward teal, silver, blue, white, and lavender, reflecting brighter, more vibrant shades. Interestingly, a lot of these colors are shades of blue, or are "blue adjacent," possibly indicating a trend for the season in the year. Fall emphasizes yellow, orange, red, violet, and magenta, which align with traditional warmer, autumn palettes. Winter features charcoal, turquoise, brown, indigo, green, peach, and maroon, indicating a preference for darker neutrals, also consistent with a lot of winter-wear. Several colors, such as magenta and silver, are significantly larger, which suggests that they have high overall frequency across the dataset.
 
 ## Heatmap - Michelle
-
-This handles large numbers of categories beautifully.
-
-Why it works:
-
-Items go on the Y-axis
-
-Seasons go on the X-axis
-
-Color = number of purchases
-
-It scales well even if you have 20–50+ item types.
-
-Interpretation:
-
-Darker = purchased more often
-
-Lighter = purchased less often
-Frequency of Purchases (colored by subscription status) vs. purchase amount
-If frequency is truly numeric and continuous, this can show trends.
-
 ```{r}
 shopping_data_counts <- shopping_data %>% 
   mutate(Season = factor(Season, 
@@ -339,8 +315,13 @@ ggplot(shopping_data_counts, aes(x = Season, y = Item.Purchased, fill = purchase
     y = "Item",
     fill = "Number of Purchases"
   )
-
 ```
+This heatmap displays how frequently each type of item is purchased across the four seasons. Darker colors represent higher numbers of purchases, while lighter shades indicate lower counts. We can see that there are some clear seasonal patterns from the heatmap. We can see that in the Spring and Fall, there is relatively balanced purchasing across many categories. However, in the Spring, we can see that there is a peak in purchases of sweaters. Summer shows strong spikes in items such as pants, jewelry, shoes, and dresses, reflecting typical seasonal demand for lighter clothing and accessories. In the Fall, we can see that there is a major spike in purchases for jacekts, hats, and handbags. This could reflect the changing of weather, so a greater need for warmer clothing. Winter, on the other hand, shows the highest concentration of purchases for cold-weather items such as pants, shirts (not t-shirts), and hoodies, all of which appear in darker shades in the Winter column. 
+
+However, it is interesting to note that there are also some unexpected purchases as well. For example, sunglasses are most popular in the winter, but we would usually associate sunglasses with the summertime. Additionally, scarves, which are a winter staple, are least commonly bought in the winter.
+
+Overall, the heatmap effectively illustrates how item purchases shift with the seasons and highlights both seasonal and non-seasonal product categories.
+
 
 ### 1. Chi-Square Test of Independence (Most appropriate)
 
@@ -431,6 +412,9 @@ From this dataset, we can conclude that the usage of discount does not affect ra
 
 
 # Evaluation/Future work (Michelle)
+While this project addressed our three main research questions, there are still many different unanswered questions that we can explore. These questions came up as we were analyzing our data, however we weren't able to fully delve into them due to limitations on this dataset and the analytical tools we learned in this class.
 
+First, we were thinking about further analyzing the long-term shopping habits of these individuals. Currently, the dataset only provides information about singular purchases. However, having access to people's purchases over time would allow us to analyze questions such as how does shopping frequency affect people's spending over time? Additionally, we could analyze what factors are positively correlated to loyal customers (ie people who continue shopping at one place for extended periods of time).
 
+Additionally, in this class we never covered any topics related to causal inference, which could be useful with our research questions. All of the analyses that we did in this report has been based on correlations and trends. However, if we were able to conduct controlled experiments (which is unlikely given the nature of the dataset) or use specialized causal inference methods, we could see which factors actually drive changes in outcomes. This would allow us to predict the effects of business actions and help businesses make better decisions.
 
