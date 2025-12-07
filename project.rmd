@@ -237,17 +237,6 @@ This consistent pattern confirms that loyalty does not predict purchase amount. 
 
 ## Question 2: How does season affect the types of items purchased and the color of the items? 
 
-**Season does not seem to have a significant affect on the types of items purchased and color of the items.**
-
-**Variables involved: Season (Winter, Spring, Summer, Fall).Type of item purchased – e.g., Category or Item Purchased, Color of item – Color**
-
-**Possible analyses:Use visualizations such as stacked/clustered bar charts or mosaic plots to compare item types and colors across seasons.**
-
-Chi-square test for association
-
-Logistic regression (Predict “Promo Code Used = Yes/No”)
-
-
 ```{r}
 
 df <- shopping_data %>%
