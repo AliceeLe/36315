@@ -181,31 +181,34 @@ Each box shows the distribution of purchase amounts for a payment method (Bank T
 ## Scatterplot
 
 ```{r}
-avg_by_age <- shopping_data %>%
+shopping_data_clean <- shopping_data %>%
+  filter(!is.na(Age), !is.na(Purchase.Amount..USD.))
+
+# Compute average purchase amount per age
+avg_by_age <- shopping_data_clean %>%
   group_by(Age) %>%
   summarise(
     mean_purchase = mean(Purchase.Amount..USD., na.rm = TRUE),
     n = n()
   )
 
+# Scatterplot of average purchase amount by age
 ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = mean_purchase)) +
   geom_point(size = 2) +
-  scale_color_gradient(
-    low  = "blue",   # cheaper
-    high = "red"     # higher
-  ) +
+  scale_color_gradient(low = "blue", high = "red") +
   labs(
     title = "Average Purchase Amount by Age",
     x = "Age",
     y = "Mean Purchase Amount (USD)",
     color = "Mean\nPurchase"
-  )
-avg_by_age_clean <- avg_by_age %>%
-  filter(!is.na(Age), !is.na(mean_purchase))
+  ) 
+
+shopping_data_clean <- shopping_data %>%
+  filter(!is.na(Age), !is.na(Purchase.Amount..USD.))
 
 pearson_test <- cor.test(
-  avg_by_age_clean$Age,
-  avg_by_age_clean$mean_purchase,
+  shopping_data_clean$Age,
+  shopping_data_clean$Purchase.Amount..USD.,
   method = "pearson"
 )
 
