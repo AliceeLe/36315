@@ -2,11 +2,12 @@
 title: "Understanding Online Retail Consumer Behavior: Predictors of Spending, Product Choice, and Customer Satisfaction"
 author: "Alice Le, Michelle Jiang, Hailey Tan, Iris Yin"
 output:
-  pdf_document:
   html_document:
     toc: yes
     toc_float: yes
     code_folding: show
+    self_contained: yes
+  pdf_document:
 urlcolor: blue
 ---
 
@@ -19,7 +20,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Motivation section (Iris)
+# Motivation
 
 The dataset describes consumer behavior in various perspectives, allowing us understand why people buy things and what affects their choices. When we know this, companies can design better products, websites, and shopping experiences that feel easier and more enjoyable to use.
 
@@ -32,7 +33,7 @@ Overall, studying shopping behavior helps create smarter, more user-friendly, an
 
 
 
-# Description of Dataset (Alice)
+# Description of Dataset
 
 ```{r, message = F}
 library(tidyverse)
@@ -70,7 +71,7 @@ The dataset is collected from an online retail platform. Generally, the dataset 
 + `Payment.Method`: The payment method used for the transaction. There are 6 options: Cash, Bank Transfer, Debit Card, Credit Card, Venmo, and Paypal 
 + `Frequency.of.Purchases`: How often the customer shops. The frequencies include Weekly, Fortnightly, Bi-weekly, Monthly, Every 3 Months, Quarterly, and Annually
 
-# 3 Research Questions 
+# Research Questions 
 
 Stated below are our 3 research questions: 
 
@@ -86,7 +87,7 @@ These research questions address core mechanisms of consumer behavior: spending 
 \newpage
 # Question 1: What factors predict how much a customer spends (Purchase Amount)?
 
-## Boxplots - Hailey
+## Boxplots
 
 To understand what drives customer spending, we start by examining how purchase amounts vary across key customer characteristics. Since purchase amount reflects a customer’s level of financial engagement, exploring its relationship with demographic and behavioral factors can help reveal broader spending patterns that can inform future marketing, segmentation, and retail strategies.
 
@@ -118,7 +119,7 @@ This comparison helps establish that gender might not meaningfully drive differe
 
 Given the minimal differences observed here, our next step is to examine whether location provides stronger explanatory power as looking at purchase amount by geographic area may uncover regional spending patterns or market-level differences that gender alone cannot capture. The spatial graph below is especially effective since location-based trends are easier to interpret visually than in tables or non-spatial charts. By mapping average purchase amounts across the U.S., we can quickly identify clusters, regional contrasts, and potential spending hotspots.
 
-## Spatial Graph - Hailey
+## Spatial Graph
 
 Average Purchase Amount by Location
 
@@ -159,12 +160,7 @@ The spatial analysis graph reveals clear regional variations in customer spendin
 Understanding these trends can provide actionable insights for regional strategy. Retailers can focus premium products, loyalty programs, and targeted campaigns in high-spending markets while emphasizing value pricing and promotions in lower-spending areas. Beyond retail, such insights support more effective site selection, forecasting, and resource allocation. 
 
 
-## Boxplot - Iris
-
-Correlations between:
-
-Purchase Amount
-PUrchase method
+## Boxplot
 
 ```{r}
 library(ggplot2)
@@ -182,8 +178,7 @@ summary(anova_model)
 
 Each box shows the distribution of purchase amounts for a payment method (Bank Transfer, Cash, etc.), with Purchase Amount (USD) on the y-axis and Payment Method on the x-axis. All methods have very similar medians (around $60), so there doesn’t seem to be a strong difference in typical purchase size by payment method. Debit Card and Credit Card look like they might have slightly higher medians / upper quartiles, while Venmo seems to have a bit lower median and a wider spread (lower minimum). Overall, the graph suggests purchase amount is fairly consistent across methods, with only small differences in variability and center. From the anova test, we can confirm that since the p-value is greater than 0.05, the difference is not significant.
 
-## Scatterplot - Iris
-Purchase Amount vs Age
+## Scatterplot
 
 ```{r}
 avg_by_age <- shopping_data %>%
@@ -219,7 +214,7 @@ pearson_test
 ```
 This graph shows the mean purchase amount across ages. Each point is an age and that age’s mean purchase amount; color also reflects the mean (blue = lower, red = higher). Most ages have mean purchases between about $55 and $65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount. From the pearson test, we can see that since the p-value is greater than 0.05, the scatterplot has no significant trend.
 
-## Unique Graph (Beeswarm) Hailey
+## Unique Graph (Beeswarm)
 ```{r}
 library(ggbeeswarm)
 library(viridis)
@@ -257,38 +252,42 @@ This consistent pattern confirms that loyalty does not predict purchase amount. 
 
 ## Question 2: How does season affect the types of items purchased and the color of the items? 
 
-## Word Cloud - Michelle
 ```{r}
-# PUT YOUR CODE AND GRAPH HERE
-library(tidyverse)
-library(tm)
-library(wordcloud)
+shopping_counts <- shopping_data %>%
+  count(Color, Season) %>%
+  pivot_wider(names_from = Season, values_from = n, values_fill = 0)
+color_matrix <- as.data.frame(shopping_counts[, -1])
+row.names(color_matrix) <- shopping_counts$Color
 
-shopping <- read.csv("shopping_behavior_updated.csv")
-season_text <- shopping %>%
-  group_by(Season) %>%
-  summarise(text = paste(Color, collapse = " "))
+dist_matrix <- dist(color_matrix, method = "euclidean")
+hc <- hclust(dist_matrix, method = "complete")
 
-corpus <- VCorpus(VectorSource(season_text$text))
-
-corpus <- corpus %>%
-  tm_map(content_transformer(tolower)) %>%
-  tm_map(removePunctuation) %>%
-  tm_map(removeNumbers) %>%
-  tm_map(removeWords, stopwords("english"))
-
-tdm <- TermDocumentMatrix(corpus)
-
-tdm_matrix <- as.matrix(tdm)
-colnames(tdm_matrix) <- season_text$Season
-
-comparison.cloud(tdm_matrix,random.order = FALSE, colors = c("goldenrod", "palegreen2", "pink", "skyblue4"), title.size = 2)
-
+plot(hc, main = "Dendrogram of Colors by Seasonal Purchase Patterns")
 
 ```
-This comparison word cloud shows how frequently different clothing colors are purchased across the four seasons. The size of each color name reflects how often it appears relative to the others within each season, allowing us to see general seasonal preferences for different colors. From this we can see that in the Spring, the most frequent colors are purple, beige, olive, gold, and gray suggesting a mix of soft neutrals and warm tones. Summer leans toward teal, silver, blue, white, and lavender, reflecting brighter, more vibrant shades. Interestingly, a lot of these colors are shades of blue, or are "blue adjacent," possibly indicating a trend for the season in the year. Fall emphasizes yellow, orange, red, violet, and magenta, which align with traditional warmer, autumn palettes. Winter features charcoal, turquoise, brown, indigo, green, peach, and maroon, indicating a preference for darker neutrals, also consistent with a lot of winter-wear. Several colors, such as magenta and silver, are significantly larger, which suggests that they have high overall frequency across the dataset.
 
-## Heatmap - Michelle
+```{r}
+
+shopping_counts <- shopping_data %>% 
+  mutate(Season = factor(Season, 
+                         levels = c("Spring", "Summer", "Fall", "Winter"))) %>%
+  count(Color, Season)
+
+ggplot(shopping_counts, aes(x = Season, y = Color, fill = n)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "blue") +
+  labs(
+    title = "Frequency of Color Purchased by Season",
+    x = "Season",
+    y = "Color",
+    fill = "Count"
+  )
+```
+The dendrogram and heatmap together reveal clear patterns in how customers purchase different colors throughout the year. Examining the branch heights in the dendrogram provides insight into the similarity between clusters. Colors that join low on the dendrogram share very similar seasonal purchase patterns, while clusters that merge at higher branch points indicate more distinct behavior. From the dendrogram, we can see that certain colors naturally cluster together. For example, warmer shades of red (like peach, maroon, and pink) are closely clustered together. Similarly, cooler colors like black, cyan, violet, teal, and green cluster together.
+
+The heatmap shows the frequency of purchases for each color in each season, with darker shaded cells indicating higher counts of purchases. This confirms the patterns we saw in the dendrogram and shows clear differences in purchase intensity across seasons for each cluster. We can see from the heatmap that in the fall, warmer colors are purchased with higher frequency, such as magenta, orange, and yellow. In the Winter, cooler toned colors are more popular, such as green. In the Spring, more neutral colors like olive and gray are popular. In the summer, we see that silver is very popular (possibly because of jewelery) and other bright colors like teal and blue are most frequently purchased. Overall, the combined visualization suggests that customers’ color preferences are strongly seasonal, with identifiable groups of colors that are consistently purchased together at particular times of the year. This clustering can inform targeted marketing strategies, seasonal promotions, or inventory planning by highlighting which colors are likely to be popular in specific seasons.
+
+## Heatmap
 ```{r}
 shopping_data_counts <- shopping_data %>% 
   mutate(Season = factor(Season, 
@@ -311,20 +310,6 @@ This heatmap displays how frequently each type of item is purchased across the f
 However, it is interesting to note that there are also some unexpected purchases as well. For example, sunglasses are most popular in the winter, but we would usually associate sunglasses with the summertime. Additionally, scarves, which are a winter staple, are least commonly bought in the winter.
 
 Overall, the heatmap effectively illustrates how item purchases shift with the seasons and highlights both seasonal and non-seasonal product categories.
-
-
-### 1. Chi-Square Test of Independence (Most appropriate)
-
-Use this when both variables are categorical.
-
-You can run:
-a. Season × Item Purchased
-
-Tests whether certain items are bought more often in some seasons.
-
-b. Season × Color
-
-Tests whether certain colors are bought more often in certain seasons.
 
 \newpage 
 
@@ -400,8 +385,10 @@ From this dataset, we can conclude that the usage of discount does not affect ra
 
 \newpage 
 
+# Conclusion
 
-# Evaluation/Future work (Michelle)
+
+# Evaluation/Future work
 While this project addressed our three main research questions, there are still many different unanswered questions that we can explore. These questions came up as we were analyzing our data, however we weren't able to fully delve into them due to limitations on this dataset and the analytical tools we learned in this class.
 
 First, we were thinking about further analyzing the long-term shopping habits of these individuals. Currently, the dataset only provides information about singular purchases. However, having access to people's purchases over time would allow us to analyze questions such as how does shopping frequency affect people's spending over time? Additionally, this would provide more information than the loyal customer variable and give us more context about their variable.
