@@ -190,8 +190,6 @@ ggplot(avg_by_age, aes(x = Age, y = mean_purchase)) +
     y = "Mean Purchase Amount (USD)"
   ) 
 
-shopping_data_clean <- shopping_data %>%
-  filter(!is.na(Age), !is.na(Purchase.Amount..USD.))
 
 pearson_test <- cor.test(
   shopping_data_clean$Age,
