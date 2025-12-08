@@ -187,8 +187,7 @@ ggplot(avg_by_age, aes(x = Age, y = mean_purchase)) +
   labs(
     title = "Average Purchase Amount by Age",
     x = "Age",
-    y = "Mean Purchase Amount (USD)",
-    color = "Mean\nPurchase"
+    y = "Mean Purchase Amount (USD)"
   ) 
 
 shopping_data_clean <- shopping_data %>%
