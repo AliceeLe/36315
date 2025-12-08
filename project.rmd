@@ -31,8 +31,6 @@ It also teaches us about the emotions and social influences behind buying decisi
 Overall, studying shopping behavior helps create smarter, more user-friendly, and more responsible shopping systems.
 
 
-
-
 # Description of Dataset
 
 ```{r, message = F}
