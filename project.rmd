@@ -2,12 +2,12 @@
 title: "Understanding Online Retail Consumer Behavior: Predictors of Spending, Product Choice, and Customer Satisfaction"
 author: "Alice Le, Michelle Jiang, Hailey Tan, Iris Yin"
 output:
+  pdf_document:
   html_document:
     toc: yes
     toc_float: yes
     code_folding: show
     self_contained: yes
-  pdf_document:
 urlcolor: blue
 ---
 
@@ -181,17 +181,12 @@ avg_by_age <- shopping_data %>%
     n = n()
   )
 
-ggplot(avg_by_age, aes(x = Age, y = mean_purchase, color = mean_purchase)) +
+ggplot(avg_by_age, aes(x = Age, y = mean_purchase)) +
   geom_point(size = 2) +
-  scale_color_gradient(
-    low  = "blue",   # cheaper
-    high = "red"     # higher
-  ) +
   labs(
     title = "Average Purchase Amount by Age",
     x = "Age",
-    y = "Mean Purchase Amount (USD)",
-    color = "Mean\nPurchase"
+    y = "Mean Purchase Amount (USD)"
   )
 avg_by_age_clean <- avg_by_age %>%
   filter(!is.na(Age), !is.na(mean_purchase))
@@ -383,6 +378,10 @@ From this dataset, we can conclude that the usage of discount does not affect ra
 \newpage 
 
 # Conclusion
+
+To conclude, our analysis examined three aspects of online retail behavior, which were spending predictors, seasonal purchasing patterns, and satisfaction drivers. Most variables, such as gender, age, payment method, and customer loyalty, showed little correlation with purchase amount, indicating that demographic and behavioral traits do not strongly shape spending levels. Location, however, emerged as a meaningful predictor, with clear regional differences such as higher spending in Arizona and Pennsylvania. These results suggest that geographic market characteristics play a more influential role in transaction size than individual customer attributes, making regional targeting an important strategic consideration.
+
+Seasonal patterns were more predictive in explaining what customers buy. Item type and color preferences aligned with traditional trends, where outerwear and warm tones were more common in the fall, whereas lighter clothing and cool tones were more predominant in the summer. However, there were a few surprises, such as winter sunglasses purchases, which could hint at additional situational factors, such as black friday deals or discounted prices for nonseasonal attire. For customer satisfaction, shipping speed showed a statistically significant but modest effect on review ratings, with standard and express shipping performing slightly better than other options. Discounts, however, had no noticeable impact, indicating that operational factors like delivery reliability contribute more to satisfaction than price incentives.
 
 
 # Evaluation/Future work
