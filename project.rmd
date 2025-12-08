@@ -87,12 +87,11 @@ These research questions address core mechanisms of consumer behavior: spending 
 \newpage
 # Question 1: What factors predict how much a customer spends (Purchase Amount)?
 
-## Boxplots
-
 To understand what drives customer spending, we start by examining how purchase amounts vary across key customer characteristics. Since purchase amount reflects a customer’s level of financial engagement, exploring its relationship with demographic and behavioral factors can help reveal broader spending patterns that can inform future marketing, segmentation, and retail strategies.
 
 As a first step, we look at gender as a core demographic variable. To compare spending across gender categories, we use a boxplot of purchase amount. This visualization highlights typical spending levels, the spread of purchase amounts, and differences in variability between groups, providing a clear and intuitive foundation for identifying factors that may predict customer spending.
 
+## Purchase Amount by Gender
 ```{r}
 ggplot(shopping_data, aes(x = Gender, y = Purchase.Amount..USD., fill = Gender)) +
   geom_boxplot(alpha = 0.7, outlier.shape = 16, outlier.size = 2) +
@@ -100,8 +99,7 @@ ggplot(shopping_data, aes(x = Gender, y = Purchase.Amount..USD., fill = Gender))
   labs(
     title = "Purchase Amount Distribution by Gender",
     x = "Gender",
-    y = "Purchase Amount (USD)",
-    caption = "Data source: Shopping Behavior Dataset"
+    y = "Purchase Amount (USD)"
   )
 ```
 
@@ -119,9 +117,7 @@ This comparison helps establish that gender might not meaningfully drive differe
 
 Given the minimal differences observed here, our next step is to examine whether location provides stronger explanatory power as looking at purchase amount by geographic area may uncover regional spending patterns or market-level differences that gender alone cannot capture. The spatial graph below is especially effective since location-based trends are easier to interpret visually than in tables or non-spatial charts. By mapping average purchase amounts across the U.S., we can quickly identify clusters, regional contrasts, and potential spending hotspots.
 
-## Spatial Graph
-
-Average Purchase Amount by Location
+## Average Purchase Amount by Location
 
 ```{r}
 # average purchase amount by location (state)
@@ -159,9 +155,7 @@ The spatial analysis graph reveals clear regional variations in customer spendin
 
 Understanding these trends can provide actionable insights for regional strategy. Retailers can focus premium products, loyalty programs, and targeted campaigns in high-spending markets while emphasizing value pricing and promotions in lower-spending areas. Beyond retail, such insights support more effective site selection, forecasting, and resource allocation. 
 
-
-## Boxplot
-
+## Purchase Amount by Purchase Method
 ```{r}
 library(ggplot2)
 ggplot(shopping_data, aes(x = Payment.Method, y = Purchase.Amount..USD., fill= Payment.Method)) +
@@ -178,8 +172,7 @@ summary(anova_model)
 
 Each box shows the distribution of purchase amounts for a payment method (Bank Transfer, Cash, etc.), with Purchase Amount (USD) on the y-axis and Payment Method on the x-axis. All methods have very similar medians (around $60), so there doesn’t seem to be a strong difference in typical purchase size by payment method. Debit Card and Credit Card look like they might have slightly higher medians / upper quartiles, while Venmo seems to have a bit lower median and a wider spread (lower minimum). Overall, the graph suggests purchase amount is fairly consistent across methods, with only small differences in variability and center. From the anova test, we can confirm that since the p-value is greater than 0.05, the difference is not significant.
 
-## Scatterplot
-
+## Purchase Amount by Age
 ```{r}
 avg_by_age <- shopping_data %>%
   group_by(Age) %>%
@@ -212,9 +205,9 @@ pearson_test <- cor.test(
 pearson_test
 
 ```
-This graph shows the mean purchase amount across ages. Each point is an age and that age’s mean purchase amount; color also reflects the mean (blue = lower, red = higher). Most ages have mean purchases between about $55 and $65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount. From the pearson test, we can see that since the p-value is greater than 0.05, the scatterplot has no significant trend.
+This graph shows the mean purchase amount across ages. Each point is an age and that age’s mean purchase amount; color also reflects the mean (blue = lower, red = higher). Most ages have mean purchases between about 55 and 65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount. From the pearson test, we can see that since the p-value is greater than 0.05, the scatterplot has no significant trend.
 
-## Unique Graph (Beeswarm)
+## Purchase Amount by Customer Loyalty
 ```{r}
 library(ggbeeswarm)
 library(viridis)
@@ -252,6 +245,7 @@ This consistent pattern confirms that loyalty does not predict purchase amount. 
 
 ## Question 2: How does season affect the types of items purchased and the color of the items? 
 
+##Item Colors by Seasonal Purchase Pattern
 ```{r}
 shopping_counts <- shopping_data %>%
   count(Color, Season) %>%
@@ -288,7 +282,7 @@ The dendrogram and heatmap together reveal clear patterns in how customers purch
 
 The heatmap shows the frequency of purchases for each color in each season, with darker shaded cells indicating higher counts of purchases. This confirms the patterns we saw in the dendrogram and shows clear differences in purchase intensity across seasons for each cluster. We can see from the heatmap that in the fall, warmer colors are purchased with higher frequency, such as magenta, orange, and yellow. In the Winter, cooler toned colors are more popular, such as green. In the Spring, more neutral colors like olive and gray are popular. In the summer, we see that silver is very popular (possibly because of jewelery) and other bright colors like teal and blue are most frequently purchased. Overall, the combined visualization suggests that customers’ color preferences are strongly seasonal, with identifiable groups of colors that are consistently purchased together at particular times of the year. This clustering can inform targeted marketing strategies, seasonal promotions, or inventory planning by highlighting which colors are likely to be popular in specific seasons.
 
-## Heatmap
+## Item Purchases by Season 
 ```{r}
 item_order <- c("T-shirt", "Shirt", "Blouse", "Sweater", "Jacket", "Hoodie", "Coat", "Dress", "Pants", "Jeans", "Skirt", "Shorts", "Socks", "Shoes", "Sandals", "Sneakers", "Boots", "Belt", "Jewelry", "Hat", "Scarf", "Gloves", "Sunglasses", "Handbag", "Backpack")
 shopping_data_counts <- shopping_data %>% 
