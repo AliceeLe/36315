@@ -2,12 +2,12 @@
 title: "Understanding Online Retail Consumer Behavior: Predictors of Spending, Product Choice, and Customer Satisfaction"
 author: "Alice Le, Michelle Jiang, Hailey Tan, Iris Yin"
 output:
-  pdf_document:
   html_document:
     toc: yes
     toc_float: yes
     code_folding: show
     self_contained: yes
+  pdf_document:
 urlcolor: blue
 ---
 
@@ -198,6 +198,7 @@ pearson_test <- cor.test(
 pearson_test
 
 ```
+
 This graph shows the mean purchase amount across ages. Each point is an age and that age’s mean purchase amount; color also reflects the mean (blue = lower, red = higher). Most ages have mean purchases between about 55 and 65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount. From the pearson test, we can see that since the p-value is greater than 0.05, the scatterplot has no significant trend.
 
 ## Purchase Amount by Customer Loyalty
@@ -271,6 +272,7 @@ ggplot(shopping_counts, aes(x = Season, y = Color, fill = n)) +
     fill = "Count"
   )
 ```
+
 The dendrogram and heatmap together reveal clear patterns in how customers purchase different colors throughout the year. Examining the branch heights in the dendrogram provides insight into the similarity between clusters. Colors that join low on the dendrogram share very similar seasonal purchase patterns, while clusters that merge at higher branch points indicate more distinct behavior. From the dendrogram, we can see that certain colors naturally cluster together. For example, warmer shades of red (like peach, maroon, and pink) are closely clustered together. Similarly, cooler colors like black, cyan, violet, teal, and green cluster together.
 
 The heatmap shows the frequency of purchases for each color in each season, with darker shaded cells indicating higher counts of purchases. This confirms the patterns we saw in the dendrogram and shows clear differences in purchase intensity across seasons for each cluster. We can see from the heatmap that in the fall, warmer colors are purchased with higher frequency, such as magenta, orange, and yellow. In the Winter, cooler toned colors are more popular, such as green. In the Spring, more neutral colors like olive and gray are popular. In the summer, we see that silver is very popular (possibly because of jewelery) and other bright colors like teal and blue are most frequently purchased. Overall, the combined visualization suggests that customers’ color preferences are strongly seasonal, with identifiable groups of colors that are consistently purchased together at particular times of the year. This clustering can inform targeted marketing strategies, seasonal promotions, or inventory planning by highlighting which colors are likely to be popular in specific seasons.
@@ -295,6 +297,7 @@ ggplot(shopping_data_counts, aes(x = Season, y = Item.Purchased, fill = purchase
     fill = "Number of Purchases"
   )
 ```
+
 This heatmap displays how frequently each type of item is purchased across the four seasons. Darker colors represent higher numbers of purchases, while lighter shades indicate lower counts. We can see that there are some clear seasonal patterns from the heatmap. We can see that in the Spring and Fall, there is relatively balanced purchasing across many categories. However, in the Spring, we can see that there is a peak in purchases of sweaters. Summer shows strong spikes in items such as pants, jewelry, shoes, and dresses, reflecting typical seasonal demand for lighter clothing and accessories. In the Fall, we can see that there is a major spike in purchases for jacekts, hats, and handbags. This could reflect the changing of weather, so a greater need for warmer clothing. Winter, on the other hand, shows the highest concentration of purchases for cold-weather items such as pants, shirts (not t-shirts), and hoodies, all of which appear in darker shades in the Winter column. 
 
 However, it is interesting to note that there are also some unexpected purchases as well. For example, sunglasses are most popular in the winter, but we would usually associate sunglasses with the summertime. Additionally, scarves, which are a winter staple, are least commonly bought in the winter.
