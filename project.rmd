@@ -205,16 +205,16 @@ To investigate whether age helps explain or predict how much a customer spends, 
 ```{r, fig.width = 12}
 shopping_data_quartiles <- shopping_data %>%
   mutate(Loyalty_Quartile = case_when(
-    Previous.Purchases <= quantile(Previous.Purchases, 0.25) ~ "Q1: Low Loyalty (0-12)",
-    Previous.Purchases <= quantile(Previous.Purchases, 0.50) ~ "Q2: Medium-Low (13-25)",
-    Previous.Purchases <= quantile(Previous.Purchases, 0.75) ~ "Q3: Medium-High (26-37)",
-    TRUE ~ "Q4: High Loyalty (38-50)"
+    Previous.Purchases <= quantile(Previous.Purchases, 0.25) ~ "Low (0-12)",
+    Previous.Purchases <= quantile(Previous.Purchases, 0.50) ~ "Medium-Low (13-25)",
+    Previous.Purchases <= quantile(Previous.Purchases, 0.75) ~ "Medium-High (26-37)",
+    TRUE ~ "High (38-50)"
   )) %>%
   mutate(Loyalty_Quartile = factor(Loyalty_Quartile, 
-                                   levels = c("Q1: Low Loyalty (0-12)", 
-                                            "Q2: Medium-Low (13-25)",
-                                            "Q3: Medium-High (26-37)", 
-                                            "Q4: High Loyalty (38-50)")))
+                                   levels = c("Low (0-12)", 
+                                            "Medium-Low (13-25)",
+                                            "Medium-High (26-37)", 
+                                            "High (38-50)")))
 
 library(circlize)
 library(viridis)
