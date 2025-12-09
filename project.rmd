@@ -168,14 +168,12 @@ summary(anova_model)
 
 ```
 
-We wanted to see if purchase method affected how much people spent. We used a boxplot to investigate the relationship. Each box shows the distribution of purchase amounts for a payment method (Bank Transfer, Cash, etc.), with Purchase Amount (USD) on the y-axis and Payment Method on the x-axis. All methods have very similar medians (around $60), so there doesn’t seem to be a strong difference in typical purchase size by payment method. Debit Card and Credit Card look like they might have slightly higher medians / upper quartiles, while Venmo seems to have a bit lower median and a wider spread (lower minimum). Overall, the graph suggests purchase amount is fairly consistent across methods, with only small differences in variability and center. From the anova test, we can confirm that since the p-value is greater than 0.05, the difference is not significant.
+Next, we analyzed the purchase amount based on the variable of purchase method (ie the payment method). Each box shows the distribution of purchase amounts for a payment method (Bank Transfer, Cash, etc.), with Purchase Amount (USD) on the y-axis and Payment Method on the x-axis. All methods have very similar medians (around $60), so there doesn’t seem to be a strong difference in typical purchase size by payment method. Debit Card and Credit Card look like they might have slightly higher medians / upper quartiles, while Venmo seems to have a bit lower median and a wider spread (lower minimum). Overall, the graph suggests purchase amount is fairly consistent across methods, with only small differences in variability and center. From the ANOVA test, we can confirm that since the p-value is greater than 0.05, the difference is not significant.
 
 ## Purchase Amount by Age
 ```{r}
-shopping_data_clean <- shopping_data %>%
-  filter(!is.na(Age), !is.na(Purchase.Amount..USD.))
 
-avg_by_age <- shopping_data_clean %>%
+avg_by_age <- shopping_data %>%
   group_by(Age) %>%
   summarise(
     mean_purchase = mean(Purchase.Amount..USD., na.rm = TRUE),
@@ -192,8 +190,8 @@ ggplot(avg_by_age, aes(x = Age, y = mean_purchase)) +
 
 
 pearson_test <- cor.test(
-  shopping_data_clean$Age,
-  shopping_data_clean$Purchase.Amount..USD.,
+  shopping_data$Age,
+  shopping_data$Purchase.Amount..USD.,
   method = "pearson"
 )
 
@@ -240,7 +238,6 @@ grid_colors <- c(
   "High Spend" = "darkgreen"
 )
 
-# Create chord diagram
 circos.clear()
 chordDiagram(
   chord_data,
@@ -280,6 +277,34 @@ This symmetry reinforces that loyalty does not predict purchase amount. If highl
 \newpage 
 
 ## Question 2: How does season affect the types of items purchased and the color of the items? 
+Besides just looking at what demographics can impact the purchase amount, we also wanted to analyze the trend of popularity of different items throughout the year, as well as the colors most popular at each season. We want to see if certain items, such as winter wear, actually is more frequently purchased in the winter/colder seasons vs the warmer seasons. Similarly, we want to see if, for example, brighter colors actually are more popular in the warmer seasons. This can greatly help business owners understand what items to put out at each season and what colors of items consumers like the most, which can help businesses grow.
+
+## Item Purchases by Season 
+```{r}
+item_order <- c("T-shirt", "Shirt", "Blouse", "Sweater", "Jacket", "Hoodie", "Coat", "Dress", "Pants", "Jeans", "Skirt", "Shorts", "Socks", "Shoes", "Sandals", "Sneakers", "Boots", "Belt", "Jewelry", "Hat", "Scarf", "Gloves", "Sunglasses", "Handbag", "Backpack")
+shopping_data_counts <- shopping_data %>% 
+  mutate(Season = factor(Season, 
+                         levels = c("Spring", "Summer", "Fall", "Winter")),
+         Item.Purchased = factor(Item.Purchased, levels = item_order)) %>%
+  count(Item.Purchased, Season, name = "purchase_count")
+
+
+ggplot(shopping_data_counts, aes(x = Season, y = Item.Purchased, fill = purchase_count)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "lightyellow", high = "darkred") +
+  labs(
+    title = "Purchases by Item and Season",
+    x = "Season",
+    y = "Item",
+    fill = "Number of Purchases"
+  )
+```
+
+This heatmap displays how frequently each type of item is purchased across the four seasons. Darker colors represent higher numbers of purchases, while lighter shades indicate lower counts. We can see that there are some clear seasonal patterns from the heatmap. We can see that in the Spring and Fall, there is relatively balanced purchasing across many categories. However, in the Spring, we can see that there is a peak in purchases of sweaters. Summer shows strong spikes in items such as pants, jewelry, shoes, and dresses, reflecting typical seasonal demand for lighter clothing and accessories. In the Fall, we can see that there is a major spike in purchases for jacekts, hats, and handbags. This could reflect the changing of weather, so a greater need for warmer clothing. Winter, on the other hand, shows the highest concentration of purchases for cold-weather items such as pants, shirts (not t-shirts), and hoodies, all of which appear in darker shades in the Winter column. 
+
+However, it is interesting to note that there are also some unexpected purchases as well. For example, sunglasses are most popular in the winter, but we would usually associate sunglasses with the summertime. Additionally, scarves, which are a winter staple, are least commonly bought in the winter.
+
+Overall, the heatmap effectively illustrates how item purchases shift with the seasons and highlights both seasonal and non-seasonal product categories.
 
 ##Item Colors by Seasonal Purchase Pattern
 ```{r}
@@ -319,32 +344,6 @@ The dendrogram and heatmap together reveal clear patterns in how customers purch
 
 The heatmap shows the frequency of purchases for each color in each season, with darker shaded cells indicating higher counts of purchases. This confirms the patterns we saw in the dendrogram and shows clear differences in purchase intensity across seasons for each cluster. We can see from the heatmap that in the fall, warmer colors are purchased with higher frequency, such as magenta, orange, and yellow. In the Winter, cooler toned colors are more popular, such as green. In the Spring, more neutral colors like olive and gray are popular. In the summer, we see that silver is very popular (possibly because of jewelery) and other bright colors like teal and blue are most frequently purchased. Overall, the combined visualization suggests that customers’ color preferences are strongly seasonal, with identifiable groups of colors that are consistently purchased together at particular times of the year. This clustering can inform targeted marketing strategies, seasonal promotions, or inventory planning by highlighting which colors are likely to be popular in specific seasons.
 
-## Item Purchases by Season 
-```{r}
-item_order <- c("T-shirt", "Shirt", "Blouse", "Sweater", "Jacket", "Hoodie", "Coat", "Dress", "Pants", "Jeans", "Skirt", "Shorts", "Socks", "Shoes", "Sandals", "Sneakers", "Boots", "Belt", "Jewelry", "Hat", "Scarf", "Gloves", "Sunglasses", "Handbag", "Backpack")
-shopping_data_counts <- shopping_data %>% 
-  mutate(Season = factor(Season, 
-                         levels = c("Spring", "Summer", "Fall", "Winter")),
-         Item.Purchased = factor(Item.Purchased, levels = item_order)) %>%
-  count(Item.Purchased, Season, name = "purchase_count")
-
-
-ggplot(shopping_data_counts, aes(x = Season, y = Item.Purchased, fill = purchase_count)) +
-  geom_tile(color = "white") +
-  scale_fill_gradient(low = "lightyellow", high = "darkred") +
-  labs(
-    title = "Purchases by Item and Season",
-    x = "Season",
-    y = "Item",
-    fill = "Number of Purchases"
-  )
-```
-
-This heatmap displays how frequently each type of item is purchased across the four seasons. Darker colors represent higher numbers of purchases, while lighter shades indicate lower counts. We can see that there are some clear seasonal patterns from the heatmap. We can see that in the Spring and Fall, there is relatively balanced purchasing across many categories. However, in the Spring, we can see that there is a peak in purchases of sweaters. Summer shows strong spikes in items such as pants, jewelry, shoes, and dresses, reflecting typical seasonal demand for lighter clothing and accessories. In the Fall, we can see that there is a major spike in purchases for jacekts, hats, and handbags. This could reflect the changing of weather, so a greater need for warmer clothing. Winter, on the other hand, shows the highest concentration of purchases for cold-weather items such as pants, shirts (not t-shirts), and hoodies, all of which appear in darker shades in the Winter column. 
-
-However, it is interesting to note that there are also some unexpected purchases as well. For example, sunglasses are most popular in the winter, but we would usually associate sunglasses with the summertime. Additionally, scarves, which are a winter staple, are least commonly bought in the winter.
-
-Overall, the heatmap effectively illustrates how item purchases shift with the seasons and highlights both seasonal and non-seasonal product categories.
 
 \newpage 
 
