@@ -204,10 +204,7 @@ pearson_test
 This graph shows the mean purchase amount across ages. Each point is an age and that age’s mean purchase amount; color also reflects the mean (blue = lower, red = higher). Most ages have mean purchases between about 55 and 65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount. From the pearson test, we can see that since the p-value is greater than 0.05, the scatterplot has no significant trend.
 
 ## Purchase Amount by Customer Loyalty
-```{r}
-library(ggbeeswarm)
-library(viridis)
-
+```{r, fig.width = 12}
 shopping_data_quartiles <- shopping_data %>%
   mutate(Loyalty_Quartile = case_when(
     Previous.Purchases <= quantile(Previous.Purchases, 0.25) ~ "Q1: Low Loyalty (0-12)",
@@ -221,21 +218,64 @@ shopping_data_quartiles <- shopping_data %>%
                                             "Q3: Medium-High (26-37)", 
                                             "Q4: High Loyalty (38-50)")))
 
-ggplot(shopping_data_quartiles, aes(x = Loyalty_Quartile, 
-                                     y = Purchase.Amount..USD., 
-                                     color = Purchase.Amount..USD.)) +
-  geom_quasirandom(alpha = 0.6, size = 1.5, width = 0.3) +
-  scale_color_viridis_c(option = "plasma", name = "Purchase\nAmount") +
-  labs(
-    title = "Individual Spending Patterns Across Customer Loyalty Levels",
-    x = "Customer Loyalty Quartile",
-    y = "Purchase Amount (USD)"
-  )
+library(circlize)
+library(viridis)
+
+chord_data <- shopping_data_quartiles %>%
+  mutate(Spending_Tier = case_when(
+    Purchase.Amount..USD. < 40 ~ "Low Spend",
+    Purchase.Amount..USD. < 70 ~ "Medium Spend",
+    TRUE ~ "High Spend"
+  )) %>%
+  count(Loyalty_Quartile, Spending_Tier) %>%
+  rename(from = Loyalty_Quartile, to = Spending_Tier, value = n)
+
+grid_colors <- c(
+  "Q1: Low Loyalty (0-12)" = "purple",
+  "Q2: Medium-Low (13-25)" = "lightblue",
+  "Q3: Medium-High (26-37)" = "lightgreen",
+  "Q4: High Loyalty (38-50)" = "yellow",
+  "Low Spend" = "pink",
+  "Medium Spend" = "orange",
+  "High Spend" = "darkgreen"
+)
+
+# Create chord diagram
+circos.clear()
+chordDiagram(
+  chord_data,
+  grid.col = grid_colors,
+  transparency = 0.3,
+  directional = 1,
+  direction.type = "arrows",
+  link.arr.type = "big.arrow",
+  annotationTrack = "grid",
+  preAllocateTracks = list(track.height = 0.3)
+)
+
+circos.track(
+  track.index = 1,
+  panel.fun = function(x, y) {
+    circos.text(
+      CELL_META$xcenter,
+      CELL_META$ylim[1],
+      CELL_META$sector.index,
+      facing = "clockwise",
+      niceFacing = TRUE,
+      adj = c(0, 0.5),
+      cex = 0.8
+    )
+  },
+  bg.border = NA
+)
+
+title("Customer Loyalty to Spending Behavior")
 ```
 
-This beeswarm plot shows 3,900 customers grouped by loyalty quartile, with each dot colored by purchase amount from 20 USD (dark blue) to 100 USD (yellow). The key takeaway is the striking uniformity across all four quartiles. Each group displays the same full gradient of spending, with dots evenly spread from low to high amounts. The shape, spread, and color distribution look nearly identical whether customers have made 0–12 previous purchases (Q1) or 38–50 (Q4), indicating that every loyalty level includes both low and high spending customers.
+This chord diagram maps customer loyalty quartiles (bottom) to spending tiers (top), with ribbon width showing how many customers fall into each pairing. The most striking feature is the near-perfect symmetry across the diagram. All four loyalty groups, Q1 through Q4, send almost identical proportions of customers into Low, Medium, and High spending tiers. Instead of strong funnels into specific categories, the ribbons spread out evenly, forming a balanced, uniform pattern with no dominant pathways between loyalty level and spending behavior.
 
-This consistent pattern confirms that loyalty does not predict purchase amount. If highly loyal customers spent more, Q4 would show more yellow and orange at the top and fewer blue points at the bottom—but it does not. Combined with earlier results showing minimal effects of gender, this reinforces that spending is probably shaped more by situational factors like product type, timing, and promotions than by customer history. For retailers, this means increasing revenue per transaction might probably require focusing more on merchandising, bundling, and context instead of customer loyalty.
+This symmetry reinforces that loyalty does not predict purchase amount. If highly loyal customers spent more, Q4 would show thick ribbons flowing to the High tier and thinner ones to Low, but the distribution is virtually the same for every quartile. Combined with earlier findings that gender also shows minimal predictive power, this suggests spending is shaped more by situational factors like product type, timing, or promotions than by customer history. For retailers, this means increasing per-transaction revenue requires focusing on merchandising, bundling, and purchase context rather than relying on loyalty to drive higher spending.
+
 
 \newpage 
 
