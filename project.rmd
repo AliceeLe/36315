@@ -168,7 +168,7 @@ summary(anova_model)
 
 ```
 
-Each box shows the distribution of purchase amounts for a payment method (Bank Transfer, Cash, etc.), with Purchase Amount (USD) on the y-axis and Payment Method on the x-axis. All methods have very similar medians (around $60), so there doesn’t seem to be a strong difference in typical purchase size by payment method. Debit Card and Credit Card look like they might have slightly higher medians / upper quartiles, while Venmo seems to have a bit lower median and a wider spread (lower minimum). Overall, the graph suggests purchase amount is fairly consistent across methods, with only small differences in variability and center. From the anova test, we can confirm that since the p-value is greater than 0.05, the difference is not significant.
+We wanted to see if purchase method affected how much people spent. We used a boxplot to investigate the relationship. Each box shows the distribution of purchase amounts for a payment method (Bank Transfer, Cash, etc.), with Purchase Amount (USD) on the y-axis and Payment Method on the x-axis. All methods have very similar medians (around $60), so there doesn’t seem to be a strong difference in typical purchase size by payment method. Debit Card and Credit Card look like they might have slightly higher medians / upper quartiles, while Venmo seems to have a bit lower median and a wider spread (lower minimum). Overall, the graph suggests purchase amount is fairly consistent across methods, with only small differences in variability and center. From the anova test, we can confirm that since the p-value is greater than 0.05, the difference is not significant.
 
 ## Purchase Amount by Age
 ```{r}
@@ -201,7 +201,7 @@ pearson_test
 
 ```
 
-This graph shows the mean purchase amount across ages. Each point is an age and that age’s mean purchase amount; color also reflects the mean (blue = lower, red = higher). Most ages have mean purchases between about 55 and 65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount. From the pearson test, we can see that since the p-value is greater than 0.05, the scatterplot has no significant trend.
+We also wanted to see if age would affect purchase amount by doing a scatterplot. This plot shows the average purchase amount for each individual age. Each point is an age and that age’s mean purchase amount. Most ages have mean purchases between about 55 and 65, so the typical purchase size doesn’t change dramatically with age. There isn’t a strong clear trend, indicating that age doesn’t seem to be a major driver of purchase amount. From the pearson test, we can see that since the correlation coefficient is -0.01, which is close to zero, we can conclude that there is no significant linear relationship between purchase amount and age.
 
 ## Purchase Amount by Customer Loyalty
 ```{r, fig.width = 12}
